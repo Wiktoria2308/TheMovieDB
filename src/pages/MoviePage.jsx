@@ -1,0 +1,65 @@
+import Container from 'react-bootstrap/Container'
+import { useParams } from 'react-router-dom'
+import LoadingSpinner from '../components/LoadingSpinner'
+import WarningAlert from '../components/alerts/WarningAlert'
+import useMovie from '../hooks/useMovie'
+import { Link } from 'react-router-dom'
+
+const MoviePage = () => {
+	const { id } = useParams()
+	const { data: movie, error, isError, isLoading } = useMovie(id)
+
+	return (
+		<Container className="py-3">
+			{isLoading && <LoadingSpinner />}
+
+			{isError && <WarningAlert message={error.message} />}
+
+			{movie && <>
+
+				<h1>{movie.title}</h1>
+
+                <div className=''>
+                <img src={`https://image.tmdb.org/t/p/w500${movie.poster_path}`} alt="poster" width={300}/>
+
+                <div>
+                <p className='pt-2'>{movie.overview}</p>
+
+                <p><span className='fw-bold'>Average vote:</span> {Number(movie.vote_average).toFixed(1)}</p>
+
+                <p className='pb-0 mb-1 fw-bold'>Production country/countries:</p>
+                <ul>
+                    {movie.production_countries.map((country, index) => (
+                      <li key={index}>{country.name}</li>
+                    ))}
+                </ul>
+
+                <p><span className='fw-bold'>Release date:</span> {movie.release_date}</p>
+
+                <p><span className='fw-bold'>Runtime:</span> {movie.runtime} minutes</p>
+
+                <p className='pb-0 mb-1 fw-bold'>
+                    Genres: 
+                </p>
+                <ul>
+                    {movie.genres.map(genre => (
+                        <li key={genre.id}>{genre.name}</li>
+                    ))}
+                </ul>
+                <p className='pb-0 mb-1 fw-bold'>Cast:</p>
+                <ul>
+                    {movie.credits.cast.map((cast, index) => (
+                         <li key={index}><Link to={`/actors/${cast.id}`}>{cast.name}</Link></li>
+                    ))}
+                </ul>
+                </div>
+                
+                </div>
+               
+				
+			</>}
+		</Container>
+	)
+}
+
+export default MoviePage

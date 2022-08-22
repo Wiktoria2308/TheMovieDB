@@ -58,10 +58,19 @@ const getTopMovies = async ({queryKey}) => {
 	return getMoviesByCategory('top_rated', page) 
 }
 
+/**
+ * Get a single movie with details
+ */
+ const getMovie = (id) => {
+	return get(`/movie/${id}?api_key=${api_key}&language=en-US&append_to_response=credits`)
+}
+
+
 const exports = {
 	getNowPlaying,
 	getPopularMovies,
 	getTopMovies,
+	getMovie,
 }
 
 export default exports
