@@ -4,6 +4,7 @@ import LoadingSpinner from '../components/LoadingSpinner'
 import WarningAlert from '../components/alerts/WarningAlert'
 import useMovie from '../hooks/useMovie'
 import { Link } from 'react-router-dom'
+import MovieImage from '../assets/images/movie.png'
 
 const MoviePage = () => {
 	const { id } = useParams()
@@ -20,8 +21,9 @@ const MoviePage = () => {
 				<h1>{movie.title}</h1>
 
                 <div className=''>
-                <img src={`https://image.tmdb.org/t/p/w500${movie.poster_path}`} alt="poster" width={300}/>
 
+                <img src={movie.poster_path === null ?  MovieImage : `https://image.tmdb.org/t/p/w500${movie.poster_path}`} alt="Movie poster" width={300}></img>
+                    
                 <div>
                 <p className='pt-2'>{movie.overview}</p>
 

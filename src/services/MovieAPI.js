@@ -65,12 +65,21 @@ const getTopMovies = async ({queryKey}) => {
 	return get(`/movie/${id}?api_key=${api_key}&language=en-US&append_to_response=credits`)
 }
 
+/**
+ * Get a single actor/actress with details
+ */
+ const getActor = (id) => {
+	return get(`/person/${id}?api_key=${api_key}&language=en-US&append_to_response=credits`)
+}
+
+
 
 const exports = {
 	getNowPlaying,
 	getPopularMovies,
 	getTopMovies,
 	getMovie,
+	getActor,
 }
 
 export default exports
