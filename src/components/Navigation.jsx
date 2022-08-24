@@ -5,6 +5,7 @@ import { Link, NavLink } from 'react-router-dom'
 import useNowPlaying from '../hooks/useNowPlaying'
 import usePopularMovies from '../hooks/usePopularMovies'
 import useTopMovies from '../hooks/useTopMovies'
+import MovieIcon from '../assets/icons/movie-icon.jpeg'
 
 const Navigation = () => {
 	const { data: nowPlaying} = useNowPlaying()
@@ -13,7 +14,7 @@ const Navigation = () => {
 	return (
 		<Navbar bg="dark" variant="dark" expand="md">
 			<Container>
-				<Navbar.Brand as={Link} to="/">Wiktoria Movie DB</Navbar.Brand>
+				<Navbar.Brand as={Link} to="/"><img src={MovieIcon} className='movie-icon' alt='movie-icon' width="40"></img>Wiktoria Movie Database</Navbar.Brand>
 
 				<Navbar.Toggle aria-controls="basic-navbar-nav" />
 				<Navbar.Collapse id="basic-navbar-nav">
