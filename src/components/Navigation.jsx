@@ -43,6 +43,7 @@ const Navigation = () => {
 									: ''
 							}
 						</Nav.Link>
+						<Nav.Link as={NavLink} end to="/genres">Movie Genres</Nav.Link>
 					</Nav>
 				</Navbar.Collapse>
 			</Container>

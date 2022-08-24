@@ -72,6 +72,14 @@ const getTopMovies = async ({queryKey}) => {
 	return get(`/person/${id}?api_key=${api_key}&language=en-US&append_to_response=credits`)
 }
 
+/**
+ * 
+ * Get all movies genres
+ */
+const getGenres = async () => {
+	return get(`/genre/movie/list?api_key=${api_key}&language=en-US`)
+}
+
 
 
 const exports = {
@@ -80,6 +88,7 @@ const exports = {
 	getTopMovies,
 	getMovie,
 	getActor,
+	getGenres,
 }
 
 export default exports
