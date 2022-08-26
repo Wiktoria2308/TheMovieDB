@@ -3,13 +3,14 @@ import { useParams } from 'react-router-dom'
 import LoadingSpinner from '../components/LoadingSpinner'
 import WarningAlert from '../components/alerts/WarningAlert'
 import useActor from '../hooks/useActor'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import ActorImage from '../assets/images/actor.png'
 import Button from 'react-bootstrap/Button'
 
 const ActorPage = () => {
 	const { id } = useParams()
 	const { data: actor, error, isError, isLoading } = useActor(id)
+    const navigate = useNavigate()
 
 	return (
 		<Container className="py-3">

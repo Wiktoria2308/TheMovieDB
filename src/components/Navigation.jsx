@@ -2,15 +2,19 @@ import Container from 'react-bootstrap/Container'
 import Navbar from 'react-bootstrap/Navbar'
 import Nav from 'react-bootstrap/Nav'
 import { Link, NavLink } from 'react-router-dom'
-import useNowPlaying from '../hooks/useNowPlaying'
-import usePopularMovies from '../hooks/usePopularMovies'
-import useTopMovies from '../hooks/useTopMovies'
 import MovieIcon from '../assets/icons/movie-icon.jpeg'
+import Search from './Search'
+import useNavigateSearch from '../hooks/useNavigateSearch'
 
 const Navigation = () => {
-	const { data: nowPlaying} = useNowPlaying()
-	const { data: popularMovies} = usePopularMovies()
-	const { data: topMovies} = useTopMovies()
+	
+	const navigateSearch = useNavigateSearch();
+
+	const handleSearch = async (query, page = 1) => {
+		navigateSearch('search', {query: query, page: page})
+	}
+
+	
 	return (
 		<Navbar bg="dark" variant="dark" expand="md">
 			<Container>
@@ -21,30 +25,16 @@ const Navigation = () => {
 					<Nav className="ms-auto">
 						<Nav.Link as={NavLink} end to="/">Home</Nav.Link>
 						<Nav.Link as={NavLink} end to="/nowPlaying">
-							Now playing&nbsp;
-							{
-								nowPlaying
-									? `(${nowPlaying.length})`
-									: ''
-							}
+							Now playing
 						</Nav.Link>
 						<Nav.Link as={NavLink} end to="/popularMovies">
-						    Current popular&nbsp;
-							{
-								popularMovies
-									? `(${popularMovies.length})`
-									: ''
-							}
+						    Current popular
 						</Nav.Link>
 						<Nav.Link as={NavLink} end to="/topMovies">
-						    Top movies&nbsp;
-							{
-								topMovies
-									? `(${topMovies.length})`
-									: ''
-							}
+						    Top movies
 						</Nav.Link>
 						<Nav.Link as={NavLink} end to="/genres">Movie Genres</Nav.Link>
+						<Search onSearch={handleSearch}/>
 					</Nav>
 				</Navbar.Collapse>
 			</Container>

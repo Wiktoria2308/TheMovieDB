@@ -38,7 +38,12 @@ const TopMoviesPage = () => {
 
 	return (
 		<Container className="py-3">
-			<h1 className="py-3">Top Movies</h1>
+			<h1 className="py-3">Top Movies&nbsp;
+							{
+								topMovies
+									? `(${topMovies.length})`
+									: ''
+							}</h1>
 
 			{isLoading && <LoadingSpinner />}
 

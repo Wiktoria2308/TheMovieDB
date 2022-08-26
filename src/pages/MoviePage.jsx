@@ -3,12 +3,14 @@ import { useParams } from 'react-router-dom'
 import LoadingSpinner from '../components/LoadingSpinner'
 import WarningAlert from '../components/alerts/WarningAlert'
 import useMovie from '../hooks/useMovie'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import MovieImage from '../assets/images/movie.png'
+import Button from 'react-bootstrap/Button'
 
 const MoviePage = () => {
 	const { id } = useParams()
 	const { data: movie, error, isError, isLoading } = useMovie(id)
+    const navigate = useNavigate()
 
 	return (
 		<Container className="py-3">
@@ -58,7 +60,7 @@ const MoviePage = () => {
                 
                 </div>
                
-				
+			<Button variant="secondary" onClick={() => navigate(-1)}>&laquo; Back</Button>
 			</>}
 		</Container>
 	)

@@ -39,7 +39,12 @@ const NowPlayingPage = () => {
 
 	return (
 		<Container className="py-3">
-			<h1 className="py-3">Now Playing</h1>
+			<h1 className="py-3">Now Playing&nbsp;
+							{
+								nowPlaying
+									? `(${nowPlaying.length})`
+									: ''
+							} </h1>
 
 			{isLoading && <LoadingSpinner />}
 

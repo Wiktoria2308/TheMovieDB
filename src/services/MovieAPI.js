@@ -88,8 +88,15 @@ const getGenres = async () => {
  const getMoviesByGenre = (id, page) => {
 	return get(`/discover/movie?api_key=${api_key}&language=en-US&region=us&page=${page}&with_genres=${id}`)
 }
-
-
+/**
+ * Search movie
+ * @param {*} query 
+ * @param {*} page 
+ * @returns 
+ */
+const getSearchMovies = (query, page) => {
+	return get(`/search/movie?api_key=${api_key}&language=en-US&query=${query}&page=${page}&include_adult=false`)
+}
 
 
 const exports = {
@@ -100,6 +107,7 @@ const exports = {
 	getActor,
 	getGenres,
 	getMoviesByGenre,
+	getSearchMovies,
 }
 
 export default exports
