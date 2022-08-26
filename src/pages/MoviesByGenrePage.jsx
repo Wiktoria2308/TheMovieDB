@@ -7,11 +7,14 @@ import WarningAlert from '../components/alerts/WarningAlert'
 import BasicTable from '../components/BasicTable'
 import useMoviesByGenre from '../hooks/useMoviesByGenre'
 import { useParams } from 'react-router-dom'
-
+import Pagination from '../components/Pagination'
+import { useSearchParams } from 'react-router-dom'
 
 const MoviesByGenrePage = () => {
+	const [searchParams, setSearchParams] = useSearchParams({ page: 1 })
+	const page = searchParams.get('page') ? Number(searchParams.get('page')) : null
     const { id } = useParams()
-	const { data: moviesByGenre, error, isError, isLoading } = useMoviesByGenre(id)
+	const { data: moviesByGenre, error, isError, isLoading } = useMoviesByGenre(id, page)
 
 	const columns = useMemo(() => {
 		return [
@@ -47,7 +50,20 @@ const MoviesByGenrePage = () => {
 
 			{isError && <WarningAlert message={error.message} />}
 
-			{moviesByGenre && <BasicTable columns={columns} data={moviesByGenre} />}
+			{moviesByGenre && (
+				<>
+					<BasicTable columns={columns} data={moviesByGenre.results} />
+					<Pagination
+							page={moviesByGenre.page}
+							numPages={Math.ceil(moviesByGenre.total_pages / 10)}
+							hasPreviousPage={moviesByGenre.page === 1 ? false : true}
+							hasNextPage={moviesByGenre.page === moviesByGenre.total_pages ? false : true}
+							onPreviousPage={() => setSearchParams({ page: page - 1})}
+							onNextPage={() => setSearchParams({ page: page + 1})}
+			         />
+				</>
+			)}
+			
 		</Container>
 	)
 }

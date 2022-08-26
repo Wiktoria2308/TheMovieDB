@@ -5,6 +5,7 @@ import WarningAlert from '../components/alerts/WarningAlert'
 import useActor from '../hooks/useActor'
 import { Link } from 'react-router-dom'
 import ActorImage from '../assets/images/actor.png'
+import Button from 'react-bootstrap/Button'
 
 const ActorPage = () => {
 	const { id } = useParams()
@@ -40,7 +41,7 @@ const ActorPage = () => {
                 </div> 
                 
                 </div>
-               
+                <Button variant="secondary" onClick={() => navigate(-1)}>&laquo; Back</Button>
 				
 			</>}
 		</Container>

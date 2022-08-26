@@ -85,9 +85,10 @@ const getGenres = async () => {
  * 
  * Get movies by genre
  */
- const getMoviesByGenre = (id) => {
-	return getResults(`/discover/movie?api_key=${api_key}&language=en-US&region=us&with_genres=${id}`)
+ const getMoviesByGenre = (id, page) => {
+	return get(`/discover/movie?api_key=${api_key}&language=en-US&region=us&page=${page}&with_genres=${id}`)
 }
+
 
 
 
