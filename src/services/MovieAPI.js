@@ -86,7 +86,7 @@ const getGenres = async () => {
  * Get movies by genre
  */
  const getMoviesByGenre = (id, page) => {
-	return get(`/discover/movie?api_key=${api_key}&language=en-US&region=us&page=${page}&with_genres=${id}`)
+	return get(`/discover/movie?api_key=${api_key}&language=en-US&region=us&include_adult=false!&page=${page}&with_genres=${id}`)
 }
 /**
  * Search movie
@@ -98,6 +98,13 @@ const getSearchMovies = (query, page) => {
 	return get(`/search/movie?api_key=${api_key}&language=en-US&query=${query}&page=${page}&include_adult=false!`)
 }
 
+/**
+ * Get a list of similar movies.
+ */
+
+const getSimilarMovies = (id) => {
+	return get(`movie/${id}/similar?api_key=${api_key}&language=en-US`)
+}
 
 const exports = {
 	getNowPlaying,
@@ -108,6 +115,7 @@ const exports = {
 	getGenres,
 	getMoviesByGenre,
 	getSearchMovies,
+	getSimilarMovies,
 }
 
 export default exports

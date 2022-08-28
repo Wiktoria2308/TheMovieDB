@@ -22,8 +22,8 @@ const SearchForm = ({ onSearch }) => {
 	}, [])
 
 	return (
-		<Form onSubmit={handleSubmit}>
-			<InputGroup className="mb-3">
+		<Form onSubmit={handleSubmit} className="ml-3">
+			<InputGroup >
 				<Form.Control
 					aria-label="Search"
 					onChange={e => setSearchInput(e.target.value)}

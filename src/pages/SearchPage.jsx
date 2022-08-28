@@ -15,7 +15,7 @@ const SearchPage = () => {
 	const page = searchParams.get('page') ? Number(searchParams.get('page')) : null
 	const query = searchParams.get('query') ?? ''
 
-	const { data: moviesSearch, error, isError, isLoading } = useSearchMovies(query, page)
+	const { data: moviesSearch, error, isError, isLoading, isSuccess } = useSearchMovies(query, page)
 
 
 	const columns = useMemo(() => {
@@ -46,18 +46,20 @@ const SearchPage = () => {
 
 	return (
 		<Container className="py-3">
-			<h1 className="py-3">Search results</h1>
+			
 
 			{isLoading && <LoadingSpinner />}
 
 			{isError && <WarningAlert message={error.message} />}
 
-			{ moviesSearch &&  (
+			{ isSuccess && moviesSearch.results &&  ( 
+				
 				<>
+				{query && (<h1 className="py-3">Search results for: '{query}'...</h1>)}
 				<BasicTable columns={columns} data={ moviesSearch.results} />
 				<Pagination
 							page={moviesSearch.page}
-							numPages={Math.ceil(moviesSearch.total_pages / 10)}
+							numPages={moviesSearch.total_pages === 0 ? 1 : Math.ceil(moviesSearch.total_pages / 10)}
 							hasPreviousPage={moviesSearch.page === 1 ? false : true}
 							hasNextPage={moviesSearch.page === moviesSearch.total_pages ? false : true}
 							onPreviousPage={() => setSearchParams({query: query,  page: page - 1})}

@@ -6,10 +6,12 @@ import useMovie from '../hooks/useMovie'
 import { Link, useNavigate } from 'react-router-dom'
 import MovieImage from '../assets/images/movie.png'
 import Button from 'react-bootstrap/Button'
+import useSimilarMovies from '../hooks/useSimilarMovies'
 
 const MoviePage = () => {
 	const { id } = useParams()
 	const { data: movie, error, isError, isLoading } = useMovie(id)
+    const { data: similarMovies } = useSimilarMovies(id);
     const navigate = useNavigate()
 
 	return (
@@ -29,6 +31,8 @@ const MoviePage = () => {
                 <div>
                 <p className='pt-2'>{movie.overview}</p>
 
+                <p><span  className='fw-bold'>Original title:</span> {movie.original_title}</p>
+
                 <p><span className='fw-bold'>Average vote:</span> {Number(movie.vote_average).toFixed(1)}</p>
 
                 <p className='pb-0 mb-1 fw-bold'>Production country/countries:</p>
@@ -41,6 +45,7 @@ const MoviePage = () => {
                 <p><span className='fw-bold'>Release date:</span> {movie.release_date}</p>
 
                 <p><span className='fw-bold'>Runtime:</span> {movie.runtime} minutes</p>
+               
 
                 <p className='pb-0 mb-1 fw-bold'>
                     Genres: 
@@ -56,11 +61,21 @@ const MoviePage = () => {
                          <li key={index}><Link to={`/actors/${cast.id}`}>{cast.name}</Link></li>
                     ))}
                 </ul>
+
+              {similarMovies &&   
+              <>
+              <p className='pb-0 mb-1 fw-bold'>Similar movies:</p>
+                <ul>
+                    {similarMovies.results.map((movie, index) => (
+                         <li key={index}><Link to={`/movies/${movie.id}`}>{movie.title}</Link></li>
+                    ))}
+                </ul>
+                </>}
                 </div>
                 
                 </div>
                
-			<Button variant="secondary" onClick={() => navigate(-1)}>&laquo; Back</Button>
+			<Button variant="primary" onClick={() => navigate(-1)}>&laquo; Back</Button>
 			</>}
 		</Container>
 	)
