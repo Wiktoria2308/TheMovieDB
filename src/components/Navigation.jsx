@@ -28,12 +28,15 @@ const Navigation = () => {
 							Now playing
 						</Nav.Link>
 						<Nav.Link as={NavLink} end to="/popularMovies">
-						    Current popular
+						    Popular
 						</Nav.Link>
 						<Nav.Link as={NavLink} end to="/topMovies">
-						    Top movies
+						    Top 
 						</Nav.Link>
-						<Nav.Link as={NavLink} end to="/genres">Movie Genres</Nav.Link>
+						<Nav.Link as={NavLink} end to="/genres">Genres</Nav.Link>
+						<Nav.Link as={NavLink} end to="/trending">
+						    Trending
+						</Nav.Link>
 						<Search onSearch={handleSearch}/>
 					</Nav>
 				</Navbar.Collapse>

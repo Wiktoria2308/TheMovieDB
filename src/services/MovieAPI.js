@@ -106,6 +106,13 @@ const getSimilarMovies = (id) => {
 	return get(`movie/${id}/similar?api_key=${api_key}&language=en-US`)
 }
 
+
+const getTrendingMovies = (time) => {
+	return get(`trending/movie/${time}?api_key=${api_key}`)
+}
+
+
+
 const exports = {
 	getNowPlaying,
 	getPopularMovies,
@@ -116,6 +123,7 @@ const exports = {
 	getMoviesByGenre,
 	getSearchMovies,
 	getSimilarMovies,
+	getTrendingMovies,
 }
 
 export default exports

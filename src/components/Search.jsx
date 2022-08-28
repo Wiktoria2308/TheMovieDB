@@ -22,7 +22,7 @@ const SearchForm = ({ onSearch }) => {
 	}, [])
 
 	return (
-		<Form onSubmit={handleSubmit} className="ml-3">
+		<Form onSubmit={handleSubmit}>
 			<InputGroup >
 				<Form.Control
 					aria-label="Search"
