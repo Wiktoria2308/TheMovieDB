@@ -95,7 +95,7 @@ const getGenres = async () => {
  * @returns 
  */
 const getSearchMovies = (query, page) => {
-	return get(`/search/movie?api_key=${api_key}&language=en-US&query=${query}&page=${page}&include_adult=false`)
+	return get(`/search/movie?api_key=${api_key}&language=en-US&query=${query}&page=${page}&include_adult=false!`)
 }
 
 

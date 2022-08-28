@@ -8,6 +8,7 @@ import WarningAlert from '../components/alerts/WarningAlert'
 import BasicTable from '../components/BasicTable'
 import { useSearchParams } from 'react-router-dom'
 import useSearchMovies from '../hooks/useSearchMovies'
+import Pagination from '../components/Pagination'
 
 const SearchPage = () => {
 	const [searchParams, setSearchParams] = useSearchParams({page: 1})
@@ -51,7 +52,19 @@ const SearchPage = () => {
 
 			{isError && <WarningAlert message={error.message} />}
 
-			{ moviesSearch && <BasicTable columns={columns} data={ moviesSearch.results} />}
+			{ moviesSearch &&  (
+				<>
+				<BasicTable columns={columns} data={ moviesSearch.results} />
+				<Pagination
+							page={moviesSearch.page}
+							numPages={Math.ceil(moviesSearch.total_pages / 10)}
+							hasPreviousPage={moviesSearch.page === 1 ? false : true}
+							hasNextPage={moviesSearch.page === moviesSearch.total_pages ? false : true}
+							onPreviousPage={() => setSearchParams({query: query,  page: page - 1})}
+							onNextPage={() => setSearchParams({ query: query, page: page + 1})}
+			         />
+				</>
+			)}
 		</Container>
 	)
 }
