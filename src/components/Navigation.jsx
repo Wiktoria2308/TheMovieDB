@@ -17,7 +17,7 @@ const Navigation = () => {
 	
 	return (
 		<Navbar bg="dark" variant="dark" expand="md">
-			<Container>
+			<Container className="nav-container">
 				<Navbar.Brand as={Link} to="/"><img src={MovieIcon} className='movie-icon' alt='movie-icon' width="40"></img>Wiktoria Movie Database</Navbar.Brand>
 
 				<Navbar.Toggle aria-controls="basic-navbar-nav" />

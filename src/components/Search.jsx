@@ -33,7 +33,7 @@ const SearchForm = ({ onSearch }) => {
 					type="text"
 					value={searchInput}
 				/>
-				<Button variant="success" type="submit" disabled={!searchInput.length}>Search</Button>
+				<Button className='search-button' type="submit" disabled={!searchInput.length}>Search</Button>
 			</InputGroup>
 		</Form>
 	)

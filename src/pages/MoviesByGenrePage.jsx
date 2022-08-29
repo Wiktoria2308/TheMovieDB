@@ -55,7 +55,7 @@ const MoviesByGenrePage = () => {
 					<BasicTable columns={columns} data={moviesByGenre.results} />
 					<Pagination
 							page={moviesByGenre.page}
-							numPages={Math.ceil(moviesByGenre.total_pages / 10)}
+							numPages={moviesByGenre.total_pages === 0 ? 1 : moviesByGenre.total_pages}
 							hasPreviousPage={moviesByGenre.page === 1 ? false : true}
 							hasNextPage={moviesByGenre.page === moviesByGenre.total_pages ? false : true}
 							onPreviousPage={() => setSearchParams({ page: page - 1})}

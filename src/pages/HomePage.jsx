@@ -11,8 +11,8 @@ const HomePage = () => {
 			<h1 className="welcome-text">Welcome!</h1>
 			{ movies && 
 		     <>
-			<h2 className='pb-0 mb-1 fw-bold text-white'>Latest shown movies:</h2>
-			<ul className="text-white">
+			<h3 className='pb-0 mb-3 text-white'>{movies.length ? 'Latest shown movies:' : null}</h3>
+			<ul className="text-white shown-movies">
 			{movies.map((movie, index) => (
 			  <li key={index}> <Link to={`/movies/${movie.id}`}>{movie.title}</Link></li>
 			))}

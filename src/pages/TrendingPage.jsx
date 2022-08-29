@@ -1,4 +1,4 @@
-import Container from 'react-bootstrap/Container'
+
 import useNavigateSearch from '../hooks/useNavigateSearch'
 
 const TrendingPage = () => {
@@ -10,10 +10,11 @@ const TrendingPage = () => {
 	}
 
 	return (
-		<Container className="py-3">
+        
+		<div className="py-3 trending-time-container">
 			<h1 className="py-3">Trending Movies</h1>
-		    <p>Select time:</p>
-            <ul>
+		    <h2 className='mb-3'>Select time:</h2>
+            <ul className='time-trending-list'>
                 <li onClick={() => handleClick('day')}>
                     Daily trending movies
                 </li>
@@ -22,7 +23,7 @@ const TrendingPage = () => {
                 </li>
             </ul>
 			
-		</Container>
+		</div>
 	)
 }
 

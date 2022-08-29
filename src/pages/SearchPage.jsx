@@ -59,7 +59,7 @@ const SearchPage = () => {
 				<BasicTable columns={columns} data={ moviesSearch.results} />
 				<Pagination
 							page={moviesSearch.page}
-							numPages={moviesSearch.total_pages === 0 ? 1 : Math.ceil(moviesSearch.total_pages / 10)}
+							numPages={moviesSearch.total_pages === 0 ? 1 : moviesSearch.total_pages}
 							hasPreviousPage={moviesSearch.page === 1 ? false : true}
 							hasNextPage={moviesSearch.page === moviesSearch.total_pages ? false : true}
 							onPreviousPage={() => setSearchParams({query: query,  page: page - 1})}
