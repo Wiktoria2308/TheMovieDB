@@ -8,11 +8,14 @@ import MovieImage from '../assets/images/movie.png'
 import Button from 'react-bootstrap/Button'
 import useSimilarMovies from '../hooks/useSimilarMovies'
 
+
 const MoviePage = () => {
 	const { id } = useParams()
 	const { data: movie, error, isError, isLoading } = useMovie(id)
     const { data: similarMovies } = useSimilarMovies(id);
     const navigate = useNavigate()
+
+   
 
 	return (
 		<Container className="py-3">
