@@ -4,9 +4,9 @@
 
 .home-page {
     height: 900px;
-    background-image: url('../images/background2.jpeg');
+    background-image: url('../images/background.jpeg');
     background-repeat: no-repeat;
-    background-size:cover;
+    background-size: cover;
     padding-left: 50px;
 }
 
@@ -16,11 +16,14 @@
     text-transform: uppercase;
     color: white;
 }
+
 .movie-icon {
     margin-right: 10px;
 }
 
-.shown-movies, .genre-list, .time-trending-list {
+.shown-movies,
+.genre-list,
+.time-trending-list {
     list-style-type: none;
     padding-left: 0;
 }
@@ -29,26 +32,32 @@
     columns: 2;
     -webkit-columns: 2;
     -moz-columns: 2;
+    font-size: 20px;
 }
 
-.shown-movies a, .genre-list a {
+.shown-movies a,
+.genre-list a {
     text-decoration: none;
 }
+
 .shown-movies a {
     color: white;
     border-bottom: white 0.125em solid;
 }
+
 .genre-list a {
     color: black;
     border-bottom: black 0.125em solid;
 }
 
-.shown-movies li  {
+.shown-movies li {
     padding-bottom: 10px;
     font-size: 20px;
 }
-.genre-list li, .time-trending-list li {
-padding-bottom: 6px;
+
+.genre-list li,
+.time-trending-list li {
+    padding-bottom: 6px;
 }
 
 .search-button {
@@ -56,11 +65,12 @@ padding-bottom: 6px;
     border: 0;
 }
 
-.time-trending-list li{
+.time-trending-list li {
     cursor: pointer;
     text-decoration: underline;
-    font-size: 30px;
+    font-size: 25px;
 }
+
 .trending-time-container {
     padding: 20px;
     text-align: center;

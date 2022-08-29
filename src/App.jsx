@@ -23,11 +23,11 @@ function App() {
 
 			<Routes>
 				<Route path="/" element={<HomePage />} />
-				<Route path="/nowPlaying" element={<NowPlayingPage />} />
+				<Route path="/now-playing" element={<NowPlayingPage />} />
 				<Route path='/genres' element={<GenresPage />} />
-				<Route path="/moviesByGenre/:id" element={<MoviesByGenrePage />} />
-				<Route path="/popularMovies" element={<PopularMoviesPage />} />
-				<Route path="/topMovies" element={<TopMoviesPage />} />
+				<Route path="/movies-by-genre/:id" element={<MoviesByGenrePage />} />
+				<Route path="/popular-movies" element={<PopularMoviesPage />} />
+				<Route path="/top-movies" element={<TopMoviesPage />} />
 				<Route path="/movies/:id" element={<MoviePage />} />
 				<Route path="/actors/:id" element={<ActorPage />} />
 				<Route path="/search" element={<SearchPage />} />

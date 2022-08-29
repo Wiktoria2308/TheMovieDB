@@ -6,21 +6,20 @@
  * Reference: <https://developers.themoviedb.org/3/>
  */
 
- import axios from 'axios'
+import axios from 'axios'
 
- axios.defaults.baseURL = import.meta.env.VITE_TMDB_BASE_URL || 'https://api.themoviedb.org/3'
+axios.defaults.baseURL = import.meta.env.VITE_TMDB_BASE_URL || 'https://api.themoviedb.org/3'
 
- const api_key = import.meta.env.VITE_TMDB_API_KEY
+const api_key = import.meta.env.VITE_TMDB_API_KEY
 
- const get = async (endpoint) => {
+const get = async (endpoint) => {
 	const response = await axios.get(endpoint)
-
 	return response.data
 }
 
+// get only results, without page number and total_pages and other data
 const getResults = async (endpoint) => {
 	const response = await axios.get(endpoint)
-
 	return response.data.results
 }
 
@@ -30,13 +29,13 @@ const getResults = async (endpoint) => {
  * Movies
  * 
  */
- const getMoviesByCategory = async (resource, page = 1) => {
+const getMoviesByCategory = async (resource, page = 1) => {
 	return getResults(`/movie/${resource}?api_key=${api_key}&language=en-US&page=${page}&region=US`)
 }
 /**
  * Get 20 latest cinema movies
  */
- const getNowPlaying = async ({ queryKey }) => {
+const getNowPlaying = async ({ queryKey }) => {
 	const [_key, page] = queryKey
 	return getMoviesByCategory('now_playing', page)
 }
@@ -53,22 +52,22 @@ const getPopularMovies = async ({ queryKey }) => {
  * 
  * Get the 20 top rated movies
  */
-const getTopMovies = async ({queryKey}) => {
+const getTopMovies = async ({ queryKey }) => {
 	const [_key, page] = queryKey
-	return getMoviesByCategory('top_rated', page) 
+	return getMoviesByCategory('top_rated', page)
 }
 
 /**
  * Get a single movie with details
  */
- const getMovie = (id) => {
+const getMovie = (id) => {
 	return get(`/movie/${id}?api_key=${api_key}&language=en-US&append_to_response=credits`)
 }
 
 /**
  * Get a single actor/actress with details
  */
- const getActor = (id) => {
+const getActor = (id) => {
 	return get(`/person/${id}?api_key=${api_key}&language=en-US&append_to_response=credits`)
 }
 
@@ -85,13 +84,13 @@ const getGenres = async () => {
  * 
  * Get movies by genre
  */
- const getMoviesByGenre = (id, page) => {
+const getMoviesByGenre = (id, page) => {
 	return get(`/discover/movie?api_key=${api_key}&language=en-US&region=us&include_adult=false!&page=${page}&with_genres=${id}`)
 }
 /**
  * Search movie
- * @param {*} query 
- * @param {*} page 
+ * @param {*} query = search query
+ * @param {*} page = page of search results
  * @returns 
  */
 const getSearchMovies = (query, page) => {
@@ -106,7 +105,11 @@ const getSimilarMovies = (id) => {
 	return get(`movie/${id}/similar?api_key=${api_key}&language=en-US`)
 }
 
-
+/**
+ * get trending movies for day or week
+ * @param {*} time = 'day' or 'week' string
+ * @returns 
+ */
 const getTrendingMovies = (time) => {
 	return get(`trending/movie/${time}?api_key=${api_key}`)
 }

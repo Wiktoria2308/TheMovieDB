@@ -11,12 +11,12 @@ import useSearchMovies from '../hooks/useSearchMovies'
 import Pagination from '../components/Pagination'
 
 const SearchPage = () => {
-	const [searchParams, setSearchParams] = useSearchParams({page: 1})
+
+	const [searchParams, setSearchParams] = useSearchParams({ page: 1 })
 	const page = searchParams.get('page') ? Number(searchParams.get('page')) : null
 	const query = searchParams.get('query') ?? ''
 
 	const { data: moviesSearch, error, isError, isLoading, isSuccess } = useSearchMovies(query, page)
-
 
 	const columns = useMemo(() => {
 		return [
@@ -46,25 +46,25 @@ const SearchPage = () => {
 
 	return (
 		<Container className="py-3">
-			
+
 
 			{isLoading && <LoadingSpinner />}
 
 			{isError && <WarningAlert message={error.message} />}
 
-			{ isSuccess && moviesSearch.results &&  ( 
-				
+			{isSuccess && moviesSearch.results && (
+
 				<>
-				{query && (<h1 className="py-3">Search results for: '{query}'...</h1>)}
-				<BasicTable columns={columns} data={ moviesSearch.results} />
-				<Pagination
-							page={moviesSearch.page}
-							numPages={moviesSearch.total_pages === 0 ? 1 : moviesSearch.total_pages}
-							hasPreviousPage={moviesSearch.page === 1 ? false : true}
-							hasNextPage={moviesSearch.page === moviesSearch.total_pages ? false : true}
-							onPreviousPage={() => setSearchParams({query: query,  page: page - 1})}
-							onNextPage={() => setSearchParams({ query: query, page: page + 1})}
-			         />
+					{query && (<h1 className="py-3">Search results for: '{query}'...</h1>)}
+					<BasicTable columns={columns} data={moviesSearch.results} />
+					<Pagination
+						page={moviesSearch.page}
+						numPages={moviesSearch.total_pages === 0 ? 1 : moviesSearch.total_pages}
+						hasPreviousPage={moviesSearch.page === 1 ? false : true}
+						hasNextPage={moviesSearch.page === moviesSearch.total_pages ? false : true}
+						onPreviousPage={() => setSearchParams({ query: query, page: page - 1 })}
+						onNextPage={() => setSearchParams({ query: query, page: page + 1 })}
+					/>
 				</>
 			)}
 		</Container>

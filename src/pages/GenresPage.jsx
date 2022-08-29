@@ -18,7 +18,7 @@ const GenresPage = () => {
                 <h1 className='pb-0 mb-3 fw-bold'>Movie Genres:</h1>
                 <ul className='genre-list'>
                     {genres.genres.map((genre, index) => (
-                         <li key={index}><Link to={`/moviesByGenre/${genre.id}`}>{genre.name}</Link></li>
+                         <li key={index}><Link to={`/movies-by-genre/${genre.id}`}>{genre.name}</Link></li>
                     ))}
                     </ul>
                 

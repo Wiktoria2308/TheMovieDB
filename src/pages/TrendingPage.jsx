@@ -3,8 +3,10 @@ import useNavigateSearch from '../hooks/useNavigateSearch'
 
 const TrendingPage = () => {
 
+    // use navigate search to navigate to selected page 
     const navigateSearch = useNavigateSearch();
 
+    // here send time as day or week to navigate to selected page like: trending-movies/day
 	const handleClick = async(time) => {
 		navigateSearch('trending-movies', {time})
 	}

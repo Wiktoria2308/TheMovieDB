@@ -1,6 +1,7 @@
 import { useTable } from 'react-table'
 import Table from 'react-bootstrap/Table'
 
+
 const BasicTable = ({ columns, data }) => {
 	const {
 		getTableProps,
