@@ -7,7 +7,7 @@ import { Link, useNavigate } from 'react-router-dom'
 import MovieImage from '../assets/images/movie.png'
 import Button from 'react-bootstrap/Button'
 import useSimilarMovies from '../hooks/useSimilarMovies'
-
+import useLocalStorage from '../hooks/useLocalStorage'
 
 const MoviePage = () => {
 	const { id } = useParams()
@@ -15,6 +15,7 @@ const MoviePage = () => {
     const { data: similarMovies } = useSimilarMovies(id);
     const navigate = useNavigate()
 
+    useLocalStorage(movie, id)
    
 
 	return (
