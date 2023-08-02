@@ -9,6 +9,7 @@ import Button from 'react-bootstrap/Button'
 import useSimilarMovies from '../hooks/useSimilarMovies'
 import useLocalStorage from '../hooks/useLocalStorage'
 
+
 const MoviePage = () => {
     const { id } = useParams()
     const { data: movie, error, isError, isLoading } = useMovie(id)

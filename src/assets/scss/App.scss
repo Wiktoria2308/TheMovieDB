@@ -1,76 +1,177 @@
-@import 'bootstrap/scss/bootstrap';
-@import url('https://fonts.googleapis.com/css2?family=Ubuntu:wght@300;400;500;700&display=swap');
+@import "bootstrap/scss/bootstrap";
+@import url("https://fonts.googleapis.com/css2?family=PT+Sans:ital,wght@0,400;0,700;1,400;1,700&display=swap");
 
 
-.home-page {
-    height: 900px;
-    background-image: url('../images/background.jpeg');
-    background-repeat: no-repeat;
-    background-size: cover;
-    padding-left: 50px;
+body {
+  font-family: "PT Sans", sans-serif;
 }
 
-.welcome-text {
-    text-align: center;
-    font-size: 50px;
-    text-transform: uppercase;
+$orange-color: #FF613A;
+
+.home-page {
+  height: 100vh;
+  background-image: url("../images/background.jpeg");
+  background-repeat: no-repeat;
+  background-size: cover;
+  display: flex;
+}
+
+.viewed-container {
+  background-color: #901d00;
+  padding: 3rem 0;
+  box-shadow: inset 0 3px 10px rgb(0 0 0 / 0.3);
+
+  .viewed-text-container {
+   padding: 0 5rem;
+   display: flex;
+   justify-content: space-between;
+   padding-bottom: 2rem;
+   .viewed-text {
+    font-size: 18px;
+  }
+   p {
+    font-size: 16px;
+    cursor: pointer;
+    &:hover {
+        text-decoration: underline;
+    }
+   }
+  }
+ 
+  .viewed-image-container {
+    padding: 0 5rem;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    gap: 50px;
+
+    li {
+      list-style-type: none;
+    }
+  }
+  .viewed-image {
+    width: 10rem;
+    box-shadow: 0 5px 12px rgb(0 0 0 / 0.3);
+  }
+  @media (max-width: 767px) {
+    .viewed-image {
+      width: 5rem;
+    }
+  }
+  @media (min-width: 768px) and (max-width: 991px) {
+    .viewed-image {
+      width: 7rem;
+    }
+  }
+}
+
+.copyright-container {
+    margin: auto;
+    padding-top: 4rem;
     color: white;
+
+    a {
+       display: flex;
+       justify-content: center;
+       align-items: center;
+       letter-spacing: 0.5px;
+       font-size: 19px;
+    }
+
+    span {
+        font-size: 14px;
+        margin-left: 7px;
+        margin-top: 4px;
+        letter-spacing: 1px;
+    }
 }
 
 .movie-icon {
-    margin-right: 10px;
+  margin-right: 10px;
 }
 
-.shown-movies,
 .genre-list,
 .time-trending-list {
-    list-style-type: none;
-    padding-left: 0;
+  list-style-type: none;
+  padding-left: 0;
 }
 
 .genre-list {
-    columns: 2;
-    -webkit-columns: 2;
-    -moz-columns: 2;
-    font-size: 20px;
-}
-
-.shown-movies a,
-.genre-list a {
-    text-decoration: none;
-}
-
-.shown-movies a {
-    color: white;
-    border-bottom: white 0.125em solid;
+  columns: 2;
+  -webkit-columns: 2;
+  -moz-columns: 2;
+  font-size: 20px;
 }
 
 .genre-list a {
-    color: black;
-    border-bottom: black 0.125em solid;
+  text-decoration: none;
 }
 
-.shown-movies li {
-    padding-bottom: 10px;
-    font-size: 20px;
+.genre-list a {
+  color: black;
+  border-bottom: black 0.125em solid;
 }
 
 .genre-list li,
 .time-trending-list li {
-    padding-bottom: 6px;
+  padding-bottom: 6px;
 }
 
 .search-button {
-    background-color: rgb(255, 123, 38) !important;
-    border: 0;
+  background-color: rgb(255, 123, 38) !important;
+  border: 0;
 }
 
 .time-trending-list li {
-    cursor: pointer;
-    text-decoration: underline;
-    font-size: 25px;
+  cursor: pointer;
+  text-decoration: underline;
+  font-size: 25px;
 }
 
 .trending-time-container {
-    padding: 20px;
+  padding: 20px;
+}
+
+.table-row:hover {
+  cursor: pointer;
+}
+
+// sidebar
+.sidebar-container {
+  flex: 1;
+}
+
+.carousels-container {
+  flex: 3;
+  display: flex;
+  flex-direction: column;
+  overflow-x: hidden;
+  padding: 0 20px;
+}
+
+/* Add styles for the carousel cards */
+.carousel-card {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 8px; /* Add padding to create margins between cards */
+}
+
+/* Ensure images maintain their aspect ratio */
+.carousel-card-content img {
+  max-width: 100%;
+  height: auto;
+  object-fit: contain; /* or "cover" if you prefer */
+}
+
+/* Styles for the movie card text content */
+.movie-card-text-content {
+  width: 100%;
+  background-color: #212529;
+  color: white;
+  padding: 10px;
+}
+
+.react-multiple-carousel__arrow::before {
+  font-size: 30px;
 }

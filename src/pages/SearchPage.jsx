@@ -1,14 +1,14 @@
 
 import Container from 'react-bootstrap/Container'
 import { useMemo } from 'react'
-import Button from 'react-bootstrap/Button'
-import { Link } from 'react-router-dom'
 import LoadingSpinner from '../components/LoadingSpinner'
 import WarningAlert from '../components/alerts/WarningAlert'
 import BasicTable from '../components/BasicTable'
 import { useSearchParams } from 'react-router-dom'
 import useSearchMovies from '../hooks/useSearchMovies'
 import Pagination from '../components/Pagination'
+import MovieImage from '../assets/images/movie.png'
+import { Image } from "react-bootstrap";
 
 const SearchPage = () => {
 
@@ -21,25 +21,25 @@ const SearchPage = () => {
 	const columns = useMemo(() => {
 		return [
 			{
+				Header: "Photo",
+				accessor: "poster_path",
+				Cell: (tableProps) => (
+					<a href={`/movies/${tableProps.row.original.id}`}>
+					<Image
+						src={tableProps.row.original.poster_path === null ? MovieImage :  `https://image.tmdb.org/t/p/w500${tableProps.row.original.poster_path}` }
+						alt="Movie poster"
+						width={100}
+					/>
+					</a>
+				),
+			},
+			{
 				Header: 'Movie Title',
 				accessor: 'title',
 			},
 			{
 				Header: 'Release Date',
 				accessor: 'release_date',
-			},
-			{
-				Header: 'Read more',
-				Cell: ({ row: { original: movie } }) => (
-					<Button
-						variant="primary"
-						size="sm"
-						as={Link}
-						to={`/movies/${movie.id}`}
-					>
-						Show
-					</Button>
-				)
 			},
 		]
 	}, [])

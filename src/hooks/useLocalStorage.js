@@ -16,7 +16,7 @@ const useLocalStorage = (data, id) => {
         if(data) {
             let movies = localStorage.getItem('movies') ? JSON.parse(localStorage.getItem('movies')) : []
             movies = movies.filter((movie) => movie.id !== id)
-            movies.push({id:id, title: data.title})
+            movies.push({id:id, image: data.poster_path})
             if(movies.length > 10) {
                 movies.shift()
             }
