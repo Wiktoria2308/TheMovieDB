@@ -8,9 +8,7 @@
 
 import axios from 'axios'
 
-axios.defaults.baseURL = import.meta.env.VITE_TMDB_BASE_URL || 'https://api.themoviedb.org/3'
-
-const api_key = import.meta.env.VITE_TMDB_API_KEY
+axios.defaults.baseURL = 'https://api.themoviedb.org/3'
 
 const get = async (endpoint) => {
 	const response = await axios.get(endpoint)
@@ -30,7 +28,7 @@ const getResults = async (endpoint) => {
  * 
  */
 const getMoviesByCategory = async (resource, page = 1) => {
-	return getResults(`/movie/${resource}?api_key=${api_key}&language=en-US&page=${page}&region=US`)
+	return getResults(`/movie/${resource}?api_key=${import.meta.env.VITE_TMDB_API_KEY}&language=en-US&page=${page}&region=US`)
 }
 
 /**
@@ -39,7 +37,7 @@ const getMoviesByCategory = async (resource, page = 1) => {
  * 
  */
 const getSeriesByCategory = async (resource, page = 1) => {
-	return getResults(`/tv/${resource}?api_key=${api_key}&language=en-US&page=${page}&with_original_language=en`)
+	return getResults(`/tv/${resource}?api_key=${import.meta.env.VITE_TMDB_API_KEY}&language=en-US&page=${page}&with_original_language=en`)
 }
 
 /**
@@ -70,7 +68,7 @@ const getPopularSeries = async ({ queryKey }) => {
  * Get a single tv serie with details
  */
 const getTV = (id) => {
-	return get(`/tv/${id}?api_key=${api_key}&language=en-US&append_to_response=credits`)
+	return get(`/tv/${id}?api_key=${import.meta.env.VITE_TMDB_API_KEY}&language=en-US&append_to_response=credits`)
 }
 
 /**
@@ -86,14 +84,14 @@ const getTopMovies = async ({ queryKey }) => {
  * Get a single movie with details
  */
 const getMovie = (id) => {
-	return get(`/movie/${id}?api_key=${api_key}&language=en-US&append_to_response=credits`)
+	return get(`/movie/${id}?api_key=${import.meta.env.VITE_TMDB_API_KEY}&language=en-US&append_to_response=credits`)
 }
 
 /**
  * Get a single actor/actress with details
  */
 const getActor = (id) => {
-	return get(`/person/${id}?api_key=${api_key}&language=en-US&append_to_response=credits`)
+	return get(`/person/${id}?api_key=${import.meta.env.VITE_TMDB_API_KEY}&language=en-US&append_to_response=credits`)
 }
 
 
@@ -102,7 +100,7 @@ const getActor = (id) => {
  * Get all movies genres
  */
 const getGenres = async () => {
-	return get(`/genre/movie/list?api_key=${api_key}&language=en-US`)
+	return get(`/genre/movie/list?api_key=${import.meta.env.VITE_TMDB_API_KEY}&language=en-US`)
 }
 
 /**
@@ -110,7 +108,7 @@ const getGenres = async () => {
  * Get movies by genre
  */
 const getMoviesByGenre = (id, page) => {
-	return get(`/discover/movie?api_key=${api_key}&language=en-US&region=us&include_adult=false!&page=${page}&with_genres=${id}`)
+	return get(`/discover/movie?api_key=${import.meta.env.VITE_TMDB_API_KEY}&language=en-US&region=us&include_adult=false!&page=${page}&with_genres=${id}`)
 }
 /**
  * Search movie
@@ -119,7 +117,7 @@ const getMoviesByGenre = (id, page) => {
  * @returns 
  */
 const getSearchMovies = (query, page) => {
-	return get(`/search/movie?api_key=${api_key}&language=en-US&query=${query}&page=${page}&include_adult=false!`)
+	return get(`/search/movie?api_key=${import.meta.env.VITE_TMDB_API_KEY}&language=en-US&query=${query}&page=${page}&include_adult=false!`)
 }
 
 /**
@@ -127,7 +125,7 @@ const getSearchMovies = (query, page) => {
  */
 
 const getSimilarMovies = (id) => {
-	return get(`movie/${id}/similar?api_key=${api_key}&language=en-US`)
+	return get(`movie/${id}/similar?api_key=${import.meta.env.VITE_TMDB_API_KEY}&language=en-US`)
 }
 
 /**
@@ -136,7 +134,7 @@ const getSimilarMovies = (id) => {
  * @returns 
  */
 const getTrendingMovies = (time) => {
-	return get(`trending/movie/${time}?api_key=${api_key}&language=en-US`)
+	return get(`trending/movie/${time}?api_key=${import.meta.env.VITE_TMDB_API_KEY}&language=en-US`)
 }
 
 
