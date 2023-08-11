@@ -1,15 +1,14 @@
 @import "bootstrap/scss/bootstrap";
 @import url("https://fonts.googleapis.com/css2?family=PT+Sans:ital,wght@0,400;0,700;1,400;1,700&display=swap");
 
-
 body {
   font-family: "PT Sans", sans-serif;
 }
 
-$orange-color: #FF613A;
+$orange-color: #ff613a;
 
 .home-page {
-  height: 100vh;
+  height: 135vh;
   background-image: url("../images/background.jpeg");
   background-repeat: no-repeat;
   background-size: cover;
@@ -22,22 +21,22 @@ $orange-color: #FF613A;
   box-shadow: inset 0 3px 10px rgb(0 0 0 / 0.3);
 
   .viewed-text-container {
-   padding: 0 5rem;
-   display: flex;
-   justify-content: space-between;
-   padding-bottom: 2rem;
-   .viewed-text {
-    font-size: 18px;
-  }
-   p {
-    font-size: 16px;
-    cursor: pointer;
-    &:hover {
-        text-decoration: underline;
+    padding: 0 5rem;
+    display: flex;
+    justify-content: space-between;
+    padding-bottom: 2rem;
+    .viewed-text {
+      font-size: 18px;
     }
-   }
+    p {
+      font-size: 16px;
+      cursor: pointer;
+      &:hover {
+        text-decoration: underline;
+      }
+    }
   }
- 
+
   .viewed-image-container {
     padding: 0 5rem;
     display: flex;
@@ -66,24 +65,24 @@ $orange-color: #FF613A;
 }
 
 .copyright-container {
-    margin: auto;
-    padding-top: 4rem;
-    color: white;
+  margin: auto;
+  padding-top: 4rem;
+  color: white;
 
-    a {
-       display: flex;
-       justify-content: center;
-       align-items: center;
-       letter-spacing: 0.5px;
-       font-size: 19px;
-    }
+  a {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    letter-spacing: 0.5px;
+    font-size: 19px;
+  }
 
-    span {
-        font-size: 14px;
-        margin-left: 7px;
-        margin-top: 4px;
-        letter-spacing: 1px;
-    }
+  span {
+    font-size: 14px;
+    margin-left: 7px;
+    margin-top: 4px;
+    letter-spacing: 1px;
+  }
 }
 
 .movie-icon {
@@ -139,6 +138,7 @@ $orange-color: #FF613A;
 // sidebar
 .sidebar-container {
   flex: 1;
+  padding: 0 2rem 0 1rem;
 }
 
 .carousels-container {
@@ -146,32 +146,195 @@ $orange-color: #FF613A;
   display: flex;
   flex-direction: column;
   overflow-x: hidden;
-  padding: 0 20px;
 }
 
-/* Add styles for the carousel cards */
-.carousel-card {
+.carousel-wrapper {
+  margin-top: 20px;
+
+  .carousel-card {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 12px; /* padding to create margins between cards */
+
+    /* Ensure images maintain their aspect ratio */
+    .carousel-card-content img {
+      max-width: 100%;
+      height: auto;
+    }
+    /* Styles for the movie card text content */
+    .movie-card-text-content {
+      width: 100%;
+      background-color: #212529;
+      color: white;
+      padding: 8px 8px 14px 8px;
+    }
+  }
+
+  .react-multiple-carousel__arrow::before {
+    font-size: 30px;
+  }
+
+  .carousel-title {
+    color: $orange-color;
+    font-size: 16px;
+    margin-left: 13px;
+    margin-bottom:0;
+  }
+
+  .carousel-movies-ratings {
+    display: flex;
+
+    .rating-icon {
+      margin-top: 1px;
+      font-size: 0.8rem;
+    }
+    span {
+      margin-left: 3px;
+      font-size: 0.7rem;
+    }
+  }
+
+  .carousel-card-trailer {
+    display: flex;
+    width: max-content;
+    margin: auto;
+    padding: 5px 8px;
+    align-items: center;
+    cursor: pointer;
+    border-radius: 5px;
+
+    &:hover {
+      background-color: #404850;
+    }
+
+    .play-icon {
+      margin-bottom: 1px;
+    }
+
+    span {
+      margin-left: 5px;
+      font-size: 13px;
+      font-weight: lighter;
+    }
+  }
+
+  .carousel-movie-title {
+    font-size: 0.8rem;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 2;
+    display: -webkit-box;
+    height: 2.3rem;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    margin-top: 0.9rem;
+    margin-bottom: 0.5rem;
+    cursor: pointer;
+    text-decoration: none;
+    color: white;
+
+    &:hover {
+      text-decoration: underline;
+    }
+  }
+}
+
+.slider-wrapper {
+  margin-top: 20px;
   display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: 8px; /* Add padding to create margins between cards */
-}
+  flex-direction: column;
+  height: 85vh;
+  overflow-y: scroll;
 
-/* Ensure images maintain their aspect ratio */
-.carousel-card-content img {
-  max-width: 100%;
-  height: auto;
-  object-fit: contain; /* or "cover" if you prefer */
-}
+  .slider-title {
+    color: $orange-color;
+    font-size: 16px;
+    margin-left: 13px;
+    margin-bottom: 10px;
+  }
 
-/* Styles for the movie card text content */
-.movie-card-text-content {
-  width: 100%;
-  background-color: #212529;
-  color: white;
-  padding: 10px;
-}
+  .slider-card {
+    display: flex;
+    margin-bottom: 20px;
+    padding: 10px 10px 10px 20px;
+    background-color: #212529;
 
-.react-multiple-carousel__arrow::before {
-  font-size: 30px;
+    .image-link {
+      width: 30%;
+      img {
+        max-width: 100%;
+        height: auto;
+      }
+    }
+   
+
+    .slider-movie-card-text-content {
+      width: 100%;
+      color: white;
+      margin-left: 10px;
+
+      .slider-movies-ratings {
+        display: flex;
+        margin-left: 8px;
+        margin-top: 10px;
+    
+        .rating-icon {
+          margin-top: 2px;
+          font-size: 0.7rem;
+        }
+        span {
+          margin-left: 3px;
+          font-size: 0.7rem;
+        }
+      }
+    
+      .slider-card-trailer {
+        display: flex;
+        width: max-content;
+        padding: 5px 8px;
+        cursor: pointer;
+        border-radius: 5px;
+    
+        &:hover {
+          background-color: #404850;
+        }
+    
+        .play-icon {
+          margin-bottom: 1px;
+        }
+    
+        span {
+          margin-left: 5px;
+          font-size: 11px;
+          font-weight: lighter;
+        }
+      }
+      .movie-date {
+        font-size: 0.6rem;
+        margin-left: 8px;
+      }
+    
+      .slider-movie-title {
+        font-size: 0.8rem;
+        height: 1rem;
+        -webkit-box-orient: vertical;
+        -webkit-line-clamp: 2;
+        display: -webkit-box;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        margin-top: 0.5rem;
+        margin-left: 8px;
+        cursor: pointer;
+        text-decoration: none;
+        color: white;
+    
+        &:hover {
+          text-decoration: underline;
+        }
+      }
+    }
+  }
+
+
+
 }

@@ -3,18 +3,18 @@ import { useParams } from 'react-router-dom'
 import LoadingSpinner from '../components/LoadingSpinner'
 import WarningAlert from '../components/alerts/WarningAlert'
 import useMovie from '../hooks/useMovie'
+import useTV from '../hooks/useTV'
 import { Link, useNavigate } from 'react-router-dom'
 import MovieImage from '../assets/images/movie.png'
 import Button from 'react-bootstrap/Button'
 import useSimilarMovies from '../hooks/useSimilarMovies'
 import useLocalStorage from '../hooks/useLocalStorage'
 
-
 const MoviePage = () => {
-    const { id } = useParams()
-    const { data: movie, error, isError, isLoading } = useMovie(id)
+    const { category , id } = useParams()
+    const { data: movie, error, isError, isLoading } = category === 'movies' ? useMovie(id) : useTV(id);
     const { data: similarMovies } = useSimilarMovies(id);
-    const navigate = useNavigate()
+    const navigate = useNavigate();
 
     // call localsotrage hook to save shown movie in localstorage
     useLocalStorage(movie, id)

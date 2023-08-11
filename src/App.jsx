@@ -28,7 +28,8 @@ function App() {
 				<Route path="/movies-by-genre/:id" element={<MoviesByGenrePage />} />
 				<Route path="/popular-movies" element={<PopularMoviesPage />} />
 				<Route path="/top-movies" element={<TopMoviesPage />} />
-				<Route path="/movies/:id" element={<MoviePage />} />
+				<Route path="/:category/:id" element={<MoviePage/>} />
+				<Route path="/:category/:id" element={<MoviePage/>} />
 				<Route path="/actors/:id" element={<ActorPage />} />
 				<Route path="/search" element={<SearchPage />} />
 				<Route path="/trending" element={<TrendingPage/>} />

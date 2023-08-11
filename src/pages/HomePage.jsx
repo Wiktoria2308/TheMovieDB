@@ -2,7 +2,12 @@ import { useState } from "react";
 import { Link } from "react-router-dom";
 import MovieIcon from '../assets/icons/movie-icon.jpeg'
 import usePopularMovies from '../hooks/usePopularMovies'
-import NewCarousel from "../components/NewCarousel";
+import usePopularSeries from '../hooks/usePopularSeries'
+import useTopMovies from "../hooks/useTopMovies.js"
+import MoviesCarousel from "../components/MoviesCarousel";
+import SidebarSlider from "../components/SidebarSlider"
+import MovieImage from '../assets/images/movie.png'
+
 
 const HomePage = () => {
   // get movies from localstorage to show on page
@@ -17,17 +22,22 @@ const HomePage = () => {
 	setMovies([])
   }
 
-  const { data: popularMovies, error, isError, isLoading } = usePopularMovies()
+  const { data: popularMovies, error: errorMovies, isError: isErrorMovies, isLoading: isLoadingMovies } = usePopularMovies()
+  const { data: popularSeries, error: errorSeries, isError: isErrorSeries, isLoading: isLoadingSeries} = usePopularSeries()
+  const { data: topMovies, error: errorTop, isError: isErrorTop, isLoading: isLoadingTop} = useTopMovies()
 
 
   return (
     <>
-      <div className="py-3 home-page">
+      <div className="p-4 home-page">
 		<div className="sidebar-container">
-			<img src={MovieIcon} alt="" width={300}/>
+    { topMovies ?  <SidebarSlider movies={topMovies} type="movies" text='Top movies'/>  : null }
+
 		</div>
 		<div className="carousels-container">
-   { popularMovies ?  <NewCarousel cards={popularMovies}/> : null }
+   { popularMovies ?  <MoviesCarousel movies={popularMovies} type="movies" text='Most popular movies'/> : null }
+   { popularSeries ?  <MoviesCarousel movies={popularSeries} type="tv" text='Most popular TV series'/>  : null }
+
 		</div>
 		
 	  </div>
@@ -46,7 +56,7 @@ const HomePage = () => {
                   <Link to={`/movies/${movie.id}`}>
                     <img
                       className="viewed-image"
-                      src={`https://image.tmdb.org/t/p/w500${movie.image}`}
+                      src={movie.image === null ? MovieImage : `https://image.tmdb.org/t/p/w500${movie.image}`}
                       alt="movie poster"
                     />
                   </Link>

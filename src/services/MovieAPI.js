@@ -32,6 +32,16 @@ const getResults = async (endpoint) => {
 const getMoviesByCategory = async (resource, page = 1) => {
 	return getResults(`/movie/${resource}?api_key=${api_key}&language=en-US&page=${page}&region=US`)
 }
+
+/**
+ * 
+ * Series
+ * 
+ */
+const getSeriesByCategory = async (resource, page = 1) => {
+	return getResults(`/tv/${resource}?api_key=${api_key}&language=en-US&page=${page}&with_original_language=en`)
+}
+
 /**
  * Get 20 latest cinema movies
  */
@@ -46,6 +56,21 @@ const getNowPlaying = async ({ queryKey }) => {
 const getPopularMovies = async ({ queryKey }) => {
 	const [_key, page] = queryKey
 	return getMoviesByCategory('popular', page)
+}
+
+/**
+ * Get 20 current popular series
+ */
+const getPopularSeries = async ({ queryKey }) => {
+	const [_key, page] = queryKey
+	return getSeriesByCategory('popular', page)
+}
+
+/**
+ * Get a single tv serie with details
+ */
+const getTV = (id) => {
+	return get(`/tv/${id}?api_key=${api_key}&language=en-US&append_to_response=credits`)
 }
 
 /**
@@ -111,7 +136,7 @@ const getSimilarMovies = (id) => {
  * @returns 
  */
 const getTrendingMovies = (time) => {
-	return get(`trending/movie/${time}?api_key=${api_key}`)
+	return get(`trending/movie/${time}?api_key=${api_key}&language=en-US`)
 }
 
 
@@ -127,6 +152,8 @@ const exports = {
 	getSearchMovies,
 	getSimilarMovies,
 	getTrendingMovies,
+	getPopularSeries,
+	getTV,
 }
 
 export default exports
