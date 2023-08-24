@@ -2,7 +2,7 @@ import Button from 'react-bootstrap/Button'
 
 const Pagination = ({ page, numPages, hasPreviousPage, onPreviousPage, hasNextPage, onNextPage }) => {
 	return (
-		<div className="pagination d-flex justify-content-between align-items-center mt-3">
+		<div className="pagination d-flex align-items-center mt-5 mb-5">
 			<div className="previous-page">
 				<Button
 					disabled={!hasPreviousPage}

@@ -36,7 +36,7 @@ const MoviePage = () => {
                     <div>
                         <p className='pt-2'>{movie.overview}</p>
 
-                        <p><span className='fw-bold'>Original title:</span> {movie.original_title}</p>
+                        <p><span className='fw-bold'>Original title:</span> {category === 'movies' ? movie.title : movie.name}</p>
 
                         <p><span className='fw-bold'>Average vote:</span> {Number(movie.vote_average).toFixed(1)}</p>
 
@@ -47,9 +47,9 @@ const MoviePage = () => {
                             ))}
                         </ul>
 
-                        <p><span className='fw-bold'>Release date:</span> {movie.release_date}</p>
+                        <p><span className='fw-bold'>Release date:</span> {category === 'movies' ? movie.release_date : movie.first_air_date}</p>
 
-                        <p><span className='fw-bold'>Runtime:</span> {movie.runtime} minutes</p>
+                        <p><span className='fw-bold'>{category === 'movies' ? 'Runtime:' : 'Episode runtime:'}</span> {category === 'movies' ? movie.runtime : movie.episode_run_time !== null && Array.isArray(movie.episode_run_time) ?  movie.episode_run_time.join(", ") : movie.episode_run_time !== null && !Array.isArray(movie.episode_run_time) ? movie.episode_run_time : null} minutes</p>
 
 
                         <p className='pb-0 mb-1 fw-bold'>

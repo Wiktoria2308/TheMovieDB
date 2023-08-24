@@ -15,13 +15,22 @@ const BasicTable = ({ columns, data }) => {
   
 	const handleRowClick = (row) => {
 	  const movieId = row.original.id;
-	  navigate(`/movies/${movieId}`);
+	  if(row.original.title){
+		navigate(`/movies/${movieId}`);
+	  }
+	  else if(row.original.name && !row.original.gender){
+		navigate(`/tv/${movieId}`);
+	  }
+	  else if(row.original.name && row.original.gender) {
+		navigate(`/actors/${movieId}`);
+	  }
+	 
 	};
 
   
 	return (
 	  <div onClick={(e) => e.stopPropagation()}>
-		<Table hover {...getTableProps()}>
+		<Table responsive hover {...getTableProps()}>
 		  <thead>
 			{headerGroups.map((headerGroup) => (
 			  <tr {...headerGroup.getHeaderGroupProps()}>

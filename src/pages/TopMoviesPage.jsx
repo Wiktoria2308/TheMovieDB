@@ -1,55 +1,67 @@
 import { useMemo } from 'react'
 import Container from 'react-bootstrap/Container'
-import Button from 'react-bootstrap/Button'
-import { Link } from 'react-router-dom'
 import LoadingSpinner from '../components/LoadingSpinner'
 import WarningAlert from '../components/alerts/WarningAlert'
 import BasicTable from '../components/BasicTable'
-import useTopMovies from '../hooks/useTopMovies'
+import useMovies from '../hooks/useMovies'
+import { Image } from "react-bootstrap";
+import Pagination from "../components/Pagination";
+import { useSearchParams } from "react-router-dom";
+import MovieImage from '../assets/images/movie.png'
 
 const TopMoviesPage = () => {
-	const { data: topMovies, error, isError, isLoading } = useTopMovies()
+	const [searchParams, setSearchParams] = useSearchParams({ page: 1 });
+    const page = searchParams.get("page") ? Number(searchParams.get("page")) : 1;
+	const { data: topMovies, error, isError, isLoading } = useMovies('top_rated',page)
 
 	const columns = useMemo(() => {
 		return [
 			{
-				Header: 'Movie Title',
+				accessor: "poster_path",
+				Cell: (tableProps) => (
+					<a href={`/movies/${tableProps.row.original.id}`}>
+					<Image
+						src={tableProps.row.original.poster_path === null ? MovieImage :  `https://image.tmdb.org/t/p/w500${tableProps.row.original.poster_path}` }
+						alt="Movie poster"
+						width={100}
+					/>
+					</a>
+				),
+			},
+			{
 				accessor: 'title',
 			},
 			{
-				Header: 'Release Date',
 				accessor: 'release_date',
-			},
-			{
-				Header: 'Read more',
-				Cell: ({ row: { original: movie } }) => (
-					<Button
-						variant="primary"
-						size="sm"
-						as={Link}
-						to={`/movies/${movie.id}`}
-					>
-						Show
-					</Button>
-				)
 			},
 		]
 	}, [])
 
 	return (
-		<Container className="py-3">
-			<h1 className="py-3">Top Movies&nbsp;
-							{
-								topMovies
-									? `(${topMovies.length})`
-									: ''
-							}</h1>
+		<Container className="py-5">
+			<h4 className="text-uppercase mb-0">Top Movies</h4>
 
 			{isLoading && <LoadingSpinner />}
 
 			{isError && <WarningAlert message={error.message} />}
 
-			{topMovies && <BasicTable columns={columns} data={topMovies} />}
+			{topMovies &&
+			<>
+			<BasicTable columns={columns} data={topMovies.results} />
+			<Pagination
+			page={topMovies.page}
+			numPages={
+			  topMovies.total_pages === 0 ? 1 : topMovies.total_pages
+			}
+			hasPreviousPage={topMovies.page === 1 ? false : true}
+			hasNextPage={
+			  topMovies.page === topMovies.total_pages ? false : true
+			}
+			onPreviousPage={() => setSearchParams({ page: page - 1 })}
+			onNextPage={() => setSearchParams({ page: page + 1 })}
+		  />
+		  </>
+			}
 		</Container>
 	)
 }
