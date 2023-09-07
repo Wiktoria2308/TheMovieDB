@@ -11,7 +11,7 @@ import { Image } from "react-bootstrap";
 
 const MoviesByGenrePage = () => {
 	const [searchParams, setSearchParams] = useSearchParams({ page: 1 })
-	const page = searchParams.get('page') ? Number(searchParams.get('page')) : null
+	const page = searchParams.get('page') ? Number(searchParams.get('page')) : 1
     const { id, name } = useParams()
 	const { data: moviesByGenre, error, isError, isLoading } = useMoviesByGenre(id, page)
 
@@ -44,6 +44,7 @@ const MoviesByGenrePage = () => {
 	}, [])
 
 	return (
+		<div className='page-container'>
 		<Container className="py-5">
 			<h4 className="text-uppercase mb-0">{name} movies</h4>
 
@@ -66,6 +67,7 @@ const MoviesByGenrePage = () => {
 			)}
 			
 		</Container>
+		</div>
 	)
 }
 

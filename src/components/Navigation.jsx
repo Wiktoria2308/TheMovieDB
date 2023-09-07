@@ -25,7 +25,7 @@ const Navigation = () => {
 	}
 
   return (
-    <Navbar bg="dark" variant="dark" expand="md">
+    <Navbar bg="dark" variant="dark" expand="lg">
       <Container className="nav-container">
         <Navbar.Brand as={Link} to="/">
           <img

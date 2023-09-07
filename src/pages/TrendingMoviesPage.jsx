@@ -19,7 +19,7 @@ const TrendingMoviesPage = () => {
 	const [whatTime, setWhatTime] = useState(time);
 	const page = searchParams.get("page")
 	? Number(searchParams.get("page"))
-	: null;
+	: 1;
 
 	useEffect(() => {
 	setWhatTime(time)
@@ -45,14 +45,20 @@ const TrendingMoviesPage = () => {
 			},
 			{
 				accessor: 'title',
-			},
-			{
-				accessor: 'release_date',
+				Cell: (tableProps) => {
+					return (
+					  <div className="result-title-container" style={{ width: '15rem' }}>
+						<p className="result-title mb-1">{tableProps.value}</p>
+						<p className="result-title-date">{tableProps.row.original.release_date ? tableProps.row.original.release_date.substring(0, 4) : null }</p>
+					  </div>
+					);
+				  },
 			},
 		]
 	}, [])
 
 	return (
+		<div className='page-container'>
 		<Container className="py-5">
 			<h4 className="text-uppercase mb-0">Trending Movies for the {time}</h4>
 
@@ -78,6 +84,7 @@ const TrendingMoviesPage = () => {
 			</>
 			}
 		</Container>
+		</div>
 	)
 }
 

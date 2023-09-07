@@ -99,6 +99,7 @@ const SearchPage = () => {
   }, []);
 
   return (
+    <div className='page-container'>
     <Container className="py-5 search-container">
       {isLoading && <LoadingSpinner />}
 
@@ -137,6 +138,7 @@ const SearchPage = () => {
         </>
       )}
     </Container>
+    </div>
   );
 };
 

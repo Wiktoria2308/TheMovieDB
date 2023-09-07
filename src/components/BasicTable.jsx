@@ -22,7 +22,7 @@ const BasicTable = ({ columns, data }) => {
 		navigate(`/tv/${movieId}`);
 	  }
 	  else if(row.original.name && row.original.gender) {
-		navigate(`/actors/${movieId}`);
+		navigate(`/person/${movieId}`);
 	  }
 	 
 	};

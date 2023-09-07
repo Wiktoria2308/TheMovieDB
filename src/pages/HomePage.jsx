@@ -1,6 +1,5 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
-import MovieIcon from "../assets/icons/movie-icon.jpeg";
 import useMovies from "../hooks/useMovies";
 import usePopularSeries from "../hooks/usePopularSeries";
 import MoviesCarousel from "../components/MoviesCarousel";
@@ -40,7 +39,8 @@ const HomePage = () => {
 
   return (
     <>
-      <div className="px-5 home-page">
+    <div className="home-page-sliders-wrapper">
+      <div className="home-page-sliders">
         <div className="sidebar-container">
           {topMovies ? (
             <SidebarSlider
@@ -67,7 +67,7 @@ const HomePage = () => {
           ) : null}
         </div>
       </div>
-
+      </div>
       {movies.length ? (
         <div className="viewed-container">
           <div className="viewed-text-container">
@@ -95,6 +95,9 @@ const HomePage = () => {
               </li>
             ))}
           </ul>
+          <p className="text-white clear-viewed-history-mobile" onClick={handleClearHistory}>
+              Clear history
+            </p>
         </div>
       ) : null}
     </>
