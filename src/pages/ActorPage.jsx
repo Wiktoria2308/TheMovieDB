@@ -57,7 +57,7 @@ const ActorPage = () => {
       );
       setAgeofDeath(ageAtDeath);
     }
-  }, []);
+  }, [actor]);
 
   return (
     <div className="actor-page-container">
