@@ -75,7 +75,7 @@ const MovieCategoryPage = ({ category }) => {
   return (
     <div className='page-container'>
     <Container className="py-5">
-      <h4 className="text-uppercase mb-0">{category} Movies</h4>
+      <h4 className="text-uppercase mb-0">{category.replace(/_/g, " ")} Movies</h4>
 
       {isLoading && <LoadingSpinner />}
 

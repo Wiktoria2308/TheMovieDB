@@ -7,24 +7,24 @@ const responsive = {
   desktop: {
     breakpoint: { max: 3000, min: 992 },
     items: 6,
-    slidesToSlide: 6 // optional, default to 1.
+    slidesToSlide: 6
   },
   tablet: {
     breakpoint: { max: 991, min: 768 },
-    items: 3,
-    slidesToSlide: 3 // optional, default to 1.
+    items: 4,
+    slidesToSlide: 4
   },
   mobile: {
     breakpoint: { max: 767, min: 0 },
-    items: 2,
-    slidesToSlide: 2 // optional, default to 1.
+    items: 3,
+    slidesToSlide: 3
   }
 };
 
 const PersonCarousel = ({ cast }) => {
 
   return (
-    <div className="carousel-wrapper">
+    <div className="carousel-wrapper carousel-person-wrapper">
     <h4 className="carousel-person-heading">Cast</h4>
     <Carousel
       swipeable={true}
@@ -34,7 +34,7 @@ const PersonCarousel = ({ cast }) => {
       ssr={true}
       infinite={false}
       keyBoardControl={true}
-      transitionDuration={5000}
+      transitionDuration={0}
       containerClass="carousel-container"
       removeArrowOnDeviceType={["tablet", "mobile"]}
     >
@@ -56,7 +56,6 @@ const PersonCarousel = ({ cast }) => {
         </div>
       ))}
     </Carousel>
-    <button>Show more cast</button>
     </div>
   );
 };
