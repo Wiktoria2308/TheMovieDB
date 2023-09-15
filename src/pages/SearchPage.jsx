@@ -1,4 +1,3 @@
-import Container from "react-bootstrap/Container";
 import { useMemo } from "react";
 import LoadingSpinner from "../components/LoadingSpinner";
 import WarningAlert from "../components/alerts/WarningAlert";
@@ -8,7 +7,7 @@ import useSearchMovies from "../hooks/useSearchMovies";
 import Pagination from "../components/Pagination";
 import MovieImage from "../assets/images/movie.png";
 import ActorImage from "../assets/images/actor.png";
-import { Image } from "react-bootstrap";
+import { Image, Container } from "react-bootstrap";
 import { MdSearchOff } from "react-icons/md";
 
 const SearchPage = () => {
@@ -44,6 +43,7 @@ const SearchPage = () => {
             const imagePath = tableProps.row.original.profile_path;
 
             return (
+              <a href={`/person/${tableProps.row.original.id}`}>
               <Image
                 src={
                   imagePath
@@ -53,11 +53,13 @@ const SearchPage = () => {
                 alt="Actor"
                 width={100}
               />
+              </a>
             );
           } else if (tableProps.value === "poster_path") {
             const imagePath = tableProps.row.original.poster_path;
 
             return (
+              <a href={`/${tableProps.row.original.media_type}/${tableProps.row.original.id}`}>
               <Image
                 src={
                   imagePath
@@ -67,6 +69,7 @@ const SearchPage = () => {
                 alt="Movie"
                 width={100}
               />
+              </a>
             );
           } else {
             return null;
@@ -89,7 +92,9 @@ const SearchPage = () => {
 			return (
 			  <div className="result-title-container" style={{ width: '15rem' }}>
 				<p className="result-title-media-type mb-1">{tableProps.row.original.media_type.toUpperCase()}</p>
-				<p className="result-title mb-1">{tableProps.value}</p>
+        <a className="result-title" href={`/${tableProps.row.original.media_type}/${tableProps.row.original.id}`}>	
+        <p className="mb-1">{tableProps.value}</p>
+        </a>
 				<p className="result-title-date">{tableProps.row.original.release_date ? tableProps.row.original.release_date.substring(0, 4) : tableProps.row.original.first_air_date ? tableProps.row.original.first_air_date.substring(0, 4) : null}</p>
 			  </div>
 			);

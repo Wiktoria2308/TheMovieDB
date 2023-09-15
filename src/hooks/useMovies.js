@@ -1,9 +1,9 @@
 import { useQuery } from 'react-query'
 import {getMoviesByType} from '../services/MovieAPI'
 
-const useMovies = (type, page) => {
+const useMovies = (category, type, page) => {
 
-    return useQuery(['movies', type, page], getMoviesByType)
+    return useQuery(['movies', category, type, page], getMoviesByType)
 }
 
 export default useMovies

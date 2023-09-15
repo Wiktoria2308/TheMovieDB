@@ -18,14 +18,18 @@ function App() {
 
 			<Routes>
 				<Route path="/" element={<HomePage />} />
-				<Route path="/movies-by-genre/:id/:name" element={<MoviesByGenrePage />} />
-				<Route path="/popular-movies" element={<MovieCategoryPage category="popular" />} />
-				<Route path="/top-movies" element={<MovieCategoryPage category="top_rated" />} />
-				<Route path="/now-playing" element={<MovieCategoryPage category="now_playing" />} />
+				<Route path="/movies-by-genre/:id/:name" element={<MoviesByGenrePage type='movie'/>} />
+				<Route path="/series-by-genre/:id/:name" element={<MoviesByGenrePage type='tv'/>} />
+				<Route path="/:category/popular-movies" element={<MovieCategoryPage type="popular" />} />
+				<Route path="/:category/popular-series" element={<MovieCategoryPage type="popular" />} />
+				<Route path="/:category/top-movies" element={<MovieCategoryPage type="top_rated" />} />
+				<Route path="/:category/now-playing" element={<MovieCategoryPage type="now_playing" />} />
+				<Route path="/:category/on_the_air" element={<MovieCategoryPage type="on_the_air" />} />
 				<Route path="/:category/:id" element={<MoviePage/>} />
 				<Route path="/person/:id" element={<ActorPage />} />
 				<Route path="/search" element={<SearchPage />} />
-				<Route path="/trending-movies" element={<TrendingMoviesPage/>} />
+				<Route path=":category/trending-movies" element={<TrendingMoviesPage/>} />
+				<Route path=":category/trending-series" element={<TrendingMoviesPage/>} />
 				<Route path="*" element={<NotFound />} />
 			</Routes>
 			<Footer />

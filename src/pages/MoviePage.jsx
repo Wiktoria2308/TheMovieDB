@@ -12,7 +12,10 @@ import { AiFillStar } from "react-icons/ai";
 import PersonCarousel from "../components/PersonCarousel";
 import MoviesCarousel from "../components/MoviesCarousel";
 import { useState } from "react";
-import PersonImage from '../assets/images/actor.png'
+import PersonImage from "../assets/images/actor.png";
+import useMoviesImages from "../hooks/useMoviesImages";
+import ImagesCarousel from "../components/ImagesCarousel";
+
 const MoviePage = () => {
   const { category, id } = useParams();
   const {
@@ -20,16 +23,26 @@ const MoviePage = () => {
     error,
     isError,
     isLoading,
-  } = category === "movies" ? useMovie(id) : useTV(id);
-  const { data: similarMovies } = useSimilarMovies(id);
+  } = category === "movie" ? useMovie(id) : useTV(id);
+  const { data: moviesImages } = useMoviesImages(id, category);
+  const { data: similarMovies } = useSimilarMovies(id, category);
   const [showAllCast, setShowAllCast] = useState(false);
   const [showAllMovies, setShowAllMovies] = useState(false);
+  const [showFullOverview, setShowFullOverview] = useState(false);
+
+
+  const toggleOverview = () => {
+    setShowFullOverview(!showFullOverview);
+  };
+
+  const splitOverview = (overview) => {
+    const lines = overview.split("\n");
+    return showFullOverview ? lines : lines.slice(0, 2);
+  };
 
   const toggleAllMovies = () => {
     setShowAllMovies(!showAllMovies);
   };
-
-  console.log(movie)
   // call localsotrage hook to save shown movie in localstorage
   useLocalStorage(movie, id);
 
@@ -39,7 +52,7 @@ const MoviePage = () => {
 
   return (
     <div className="movie-page-container">
-      {movie && (
+      {movie ? (
         <Container className="py-4">
           {isLoading && <LoadingSpinner />}
 
@@ -52,12 +65,29 @@ const MoviePage = () => {
               </h3>
               <div className="d-flex">
                 <p className="me-3 mb-0">
-                  {category === "movies"
+                  {category === "movie"
                     ? movie.release_date.substring(0, 4)
-                    : movie.first_air_date.substring(0, 4)}
+                    : category === "tv"
+                    ? `${movie.first_air_date.substring(0, 4)}${
+                        movie.in_production
+                          ? ""
+                          : ` - ${movie.last_air_date.substring(0, 4)}`
+                      }`
+                    : ""}
                 </p>
+
+                <p className="me-3 mb-0">
+                  {category === "tv"
+                    ? movie.seasons.length === 1
+                      ? "1 season"
+                      : movie.seasons.length > 1
+                      ? `${movie.seasons.length} seasons`
+                      : null
+                    : null}
+                </p>
+
                 <p className="mb-0">
-                  {category === "movies"
+                  {category === "movie"
                     ? movie.runtime < 60
                       ? `${movie.runtime}m`
                       : `${Math.floor(movie.runtime / 60)}h ${
@@ -101,72 +131,121 @@ const MoviePage = () => {
               width={300}
             ></img>
             <div className="movie-info">
-              <p className="py-3 movie-overview">{movie.overview}</p>
+
+              <p className="pt-2 movie-overview">
+                  {splitOverview(movie.overview).join("\n")}{" "}
+                </p>
+                {movie.overview.split("\n").length > 4 && (
+                  <button
+                    className="show-overview-button"
+                    onClick={toggleOverview}
+                  >
+                    {showFullOverview ? "Show Less" : "Show More"}
+                  </button>
+                )}
+
 
               <div className="info-table">
-                <div className="info-row">
-                  <div className="header-column">
-                    <p className="fw-bold movie-info-title">Director</p>
-                  </div>
-                  <div className="info-column">
-                    <p>
-                      {movie.credits.crew
-                        .filter((item) => item.job === "Director")
-                        .map((director, index, array) => (
-                          <span className="movie-crew-link" key={index}>
-                            <Link to={`/person/${director.id}`}>
-                              {director.name}
-                            </Link>
-                            {index !== array.length - 1 ? ", " : ""}
-                          </span>
-                        ))}
-                    </p>
-                  </div>
-                </div>
+                {movie.credits &&
+                  movie.credits.crew.some(
+                    (item) => item.job === "Director"
+                  ) && (
+                    <div className="info-row">
+                      <div className="header-column">
+                        <p className="fw-bold movie-info-title">Director</p>
+                      </div>
+                      <div className="info-column">
+                        <p>
+                          {movie.credits.crew
+                            .filter((item) => item.job === "Director")
+                            .map((director, index, array) => (
+                              <span className="movie-crew-link" key={index}>
+                                <Link to={`/person/${director.id}`}>
+                                  {director.name}
+                                </Link>
+                                {index !== array.length - 1 ? ", " : ""}
+                              </span>
+                            ))}
+                        </p>
+                      </div>
+                    </div>
+                  )}
+                {category === "tv" && (
+                  <>
+                    {movie.created_by.length > 0 && (
+                      <div className="info-row">
+                        <div className="header-column">
+                          <p className="fw-bold movie-info-title">Created by</p>
+                        </div>
+                        <div className="info-column">
+                          <p>
+                            {movie.created_by.map((creator, index, array) => (
+                              <span className="movie-crew-link" key={index}>
+                                <Link to={`/person/${creator.id}`}>
+                                  {creator.name}
+                                </Link>
+                                {index !== array.length - 1 ? ", " : ""}
+                              </span>
+                            ))}
+                          </p>
+                        </div>
+                      </div>
+                    )}
+                  </>
+                )}
 
-                <div className="info-row">
-                  <div className="header-column">
-                    <p className="fw-bold movie-info-title">
-                      {movie.credits.crew.filter(
-                        (item) =>
-                          item.job === "Screenplay" || item.job === "Writer"
-                      ).length > 1
-                        ? "Writers"
-                        : "Writer"}
-                    </p>
+                {movie.credits &&
+                  movie.credits.crew.some(
+                    (item) => item.job === "Screenplay" || item.job === "Writer"
+                  ) && (
+                    <div className="info-row">
+                      <div className="header-column">
+                        <p className="fw-bold movie-info-title">
+                          {movie.credits.crew.filter(
+                            (item) =>
+                              item.job === "Screenplay" || item.job === "Writer"
+                          ).length > 1
+                            ? "Writers"
+                            : "Writer"}
+                        </p>
+                      </div>
+                      <div className="info-column">
+                        <p>
+                          {movie.credits.crew
+                            .filter(
+                              (item) =>
+                                item.job === "Writer" ||
+                                item.job === "Screenplay"
+                            )
+                            .map((writer, index, array) => (
+                              <span className="movie-crew-link" key={index}>
+                                <Link to={`/person/${writer.id}`}>
+                                  {writer.name}
+                                </Link>
+                                {index !== array.length - 1 ? ", " : ""}
+                              </span>
+                            ))}
+                        </p>
+                      </div>
+                    </div>
+                  )}
+                {movie.production_countries &&
+                movie.production_countries.length > 1 ? (
+                  <div className="info-row">
+                    <div className="header-column">
+                      <p className="fw-bold movie-info-title">Production</p>
+                    </div>
+                    <div className="info-column">
+                      <p>
+                        {movie.production_countries
+                          .map((country) => country.name)
+                          .join(", ")}
+                      </p>
+                    </div>
                   </div>
-                  <div className="info-column">
-                    <p>
-                      {movie.credits.crew
-                        .filter(
-                          (item) =>
-                            item.job === "Writer" || item.job === "Screenplay"
-                        )
-                        .map((writer, index, array) => (
-                          <span className="movie-crew-link" key={index}>
-                            <Link to={`/person/${writer.id}`}>
-                              {writer.name}
-                            </Link>
-                            {index !== array.length - 1 ? ", " : ""}
-                          </span>
-                        ))}
-                    </p>
-                  </div>
-                </div>
+                ) : null}
 
-                <div className="info-row">
-                  <div className="header-column">
-                    <p className="fw-bold movie-info-title">Production</p>
-                  </div>
-                  <div className="info-column">
-                    <p>
-                      {movie.production_countries
-                        .map((country) => country.name)
-                        .join(", ")}
-                    </p>
-                  </div>
-                </div>
-
+              {movie.genres && movie.genres.length > 1 ? 
                 <div className="info-row">
                   <div className="header-column">
                     <p className="fw-bold movie-info-title">Genre</p>
@@ -176,7 +255,7 @@ const MoviePage = () => {
                       {movie.genres.map((genre, index, array) => (
                         <span className="movie-crew-link" key={genre.id}>
                           <Link
-                            to={`/movies-by-genre/${genre.id}/${genre.name}`}
+                            to={`/${category === 'movie' ? 'movies-by-genre' : 'series-by-genre'}/${genre.id}/${genre.name}`}
                           >
                             {genre.name}
                           </Link>
@@ -185,12 +264,20 @@ const MoviePage = () => {
                       ))}
                     </p>
                   </div>
-                </div>
+                </div> : null }
               </div>
             </div>
           </div>
 
-          {movie.credits.cast.length > 0 ? (
+          {moviesImages && moviesImages.backdrops.length > 0 ? (
+            <ImagesCarousel
+              images={moviesImages.backdrops.filter(
+                (item) => item.iso_639_1 === "en" || item.iso_639_1 === null
+              )}
+            />
+          ) : null}
+
+          {movie.credits && movie.credits.cast.length > 0 ? (
             <div className="cast-list-container">
               {showAllCast ? (
                 <div className="cast-list">
@@ -242,7 +329,7 @@ const MoviePage = () => {
                   <div className="movies-columns">
                     {similarMovies.results.map((movie, index) => (
                       <div key={index} className="movie-item">
-                        <a href={`/movies/${movie.id}`}>
+                        <a href={`/movie/${movie.id}`}>
                           <img
                             src={
                               movie.poster_path === null
@@ -255,12 +342,12 @@ const MoviePage = () => {
                         <div>
                           <Link
                             className="actor-movies-title-link"
-                            to={`/movies/${movie.id}`}
+                            to={`/movie/${movie.id}`}
                           >
                             {movie.title}
                           </Link>
                           <p className="actor-movies-year">
-                            {movie.release_date.substring(0, 4)}
+                            {movie.release_date ? movie.release_date.substring(0, 4) : null}
                           </p>
                         </div>
                       </div>
@@ -270,19 +357,25 @@ const MoviePage = () => {
               ) : (
                 <MoviesCarousel
                   movies={similarMovies.results.slice(0, 12)}
-                  text="Similar movies"
-                  type="movie"
+                  text={category === "movie" ? "Similar movies" : "Similar series"}
+                  type={category === "movie" ? "movie" : "tv"}
                 />
               )}
+              {category === "movies" ? 
               <div className="show-cast-button-container mt-4">
                 <button onClick={toggleAllMovies}>
                   {showAllMovies ? "Close All movies" : "All movies"}
                 </button>
               </div>
+              :  <div className="show-cast-button-container mt-4">
+              <button onClick={toggleAllMovies}>
+                {showAllMovies ? "Close All series" : "All series"}
+              </button>
+            </div> }
             </>
           ) : null}
         </Container>
-      )}
+      ) : null}
     </div>
   );
 };

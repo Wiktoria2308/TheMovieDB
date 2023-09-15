@@ -1,8 +1,8 @@
 import { useQuery } from 'react-query'
 import MovieAPI from '../services/MovieAPI'
 
-const useGenres = () => {
-	return useQuery('genres', MovieAPI.getGenres)
+const useGenres = (type) => {
+	return useQuery(['genres', type] ,() => MovieAPI.getGenres(type))
 }
 
 export default useGenres

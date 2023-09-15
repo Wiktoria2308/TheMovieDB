@@ -15,6 +15,7 @@ const ActorPage = () => {
   const [showFullBiography, setShowFullBiography] = useState(false);
   const [showAllMovies, setShowAllMovies] = useState(false);
   const [ageOfDeath, setAgeofDeath] = useState(null);
+  const [age, setAge] = useState(null);
 
   const toggleBiography = () => {
     setShowFullBiography(!showFullBiography);
@@ -48,15 +49,41 @@ const ActorPage = () => {
 
     return ` (${years})`;
   }
+  function calculateAge(birthdate) {
+    const birthDateObj = new Date(birthdate);
+    const currentDate = new Date();
+  
+    if (isNaN(birthDateObj)) {
+      return "Invalid date";
+    }
+  
+    let years = currentDate.getFullYear() - birthDateObj.getFullYear();
+    let months = currentDate.getMonth() - birthDateObj.getMonth();
+    let days = currentDate.getDate() - birthDateObj.getDate();
+  
+    if (months < 0 || (months === 0 && days < 0)) {
+      years--;
+      months += 12;
+    }
+  
+    return `(${years})`;
+  }
+  
 
   useEffect(() => {
-    if (actor && actor.deathday) {
+    if (actor) {
+      if(actor.birthday && actor.deathday) {
       const ageAtDeath = calculateExactAgeAtDeath(
         actor.birthday,
         actor.deathday
       );
       setAgeofDeath(ageAtDeath);
     }
+    if(actor.birthday && !actor.deathday){
+      const actorAge = calculateAge(actor.birthday);
+      setAge(actorAge);
+    }
+  }
   }, [actor]);
 
   return (
@@ -99,7 +126,7 @@ const ActorPage = () => {
                       <p className="fw-bold actor-info-title">Birthday</p>
                     </div>
                     <div className="info-column">
-                      <p>{actor.birthday}</p>
+                      <p>{actor.birthday} <span className="actor-age">{age}</span></p>
                     </div>
                   </div>
                   {actor.deathday ? (
@@ -134,7 +161,7 @@ const ActorPage = () => {
                     <div className="movies-columns">
                       {actor.credits.cast.map((movie, index) => (
                         <div key={index} className="movie-item">
-                          <a href={`/movies/${movie.id}`}>
+                          <a href={`/movie/${movie.id}`}>
                             <img
                               src={
                                 movie.poster_path === null

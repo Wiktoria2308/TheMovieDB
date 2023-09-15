@@ -23,7 +23,7 @@ const HomePage = () => {
     error: errorMovies,
     isError: isErrorMovies,
     isLoading: isLoadingMovies,
-  } = useMovies("popular", 1);
+  } = useMovies('movie', "popular", 1);
   const {
     data: popularSeries,
     error: errorSeries,
@@ -35,7 +35,7 @@ const HomePage = () => {
     error: errorTop,
     isError: isErrorTop,
     isLoading: isLoadingTop,
-  } = useMovies("top_rated", 1);
+  } = useMovies('movie',"top_rated", 1);
 
   return (
     <>
@@ -81,7 +81,7 @@ const HomePage = () => {
             {movies.map((movie, index) => (
               <li key={index}>
                 {" "}
-                <Link to={`/movies/${movie.id}`}>
+                <Link to={`/movie/${movie.id}`}>
                   <img
                     className="viewed-image"
                     src={

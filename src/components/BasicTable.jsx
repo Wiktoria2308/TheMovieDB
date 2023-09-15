@@ -4,6 +4,8 @@ import Table from 'react-bootstrap/Table';
 
 const BasicTable = ({ columns, data }) => {
 	const navigate = useNavigate();
+
+	console.log(columns)
   
 	const {
 	  getTableProps,
@@ -13,19 +15,19 @@ const BasicTable = ({ columns, data }) => {
 	  prepareRow,
 	} = useTable({ columns, data });
   
-	const handleRowClick = (row) => {
-	  const movieId = row.original.id;
-	  if(row.original.title){
-		navigate(`/movies/${movieId}`);
-	  }
-	  else if(row.original.name && !row.original.gender){
-		navigate(`/tv/${movieId}`);
-	  }
-	  else if(row.original.name && row.original.gender) {
-		navigate(`/person/${movieId}`);
-	  }
+	// const handleRowClick = (row) => {
+	//   const movieId = row.original.id;
+	//   if(row.original.media_type === "movie"){
+	// 	navigate(`/movie/${movieId}`);
+	//   }
+	//   else if(row.original.media_type === "tv"){
+	// 	navigate(`/tv/${movieId}`);
+	//   }
+	//   else if(row.original.media_type === "person") {
+	// 	navigate(`/person/${movieId}`);
+	//   }
 	 
-	};
+	// };
 
   
 	return (
@@ -45,7 +47,7 @@ const BasicTable = ({ columns, data }) => {
 			{rows.map((row) => {
 			  prepareRow(row);
 			  return (
-				<tr className='table-row' key={row.id} onClick={() => handleRowClick(row)}>
+				<tr className='table-row' key={row.id}>
 				  {row.cells.map((cell) => (
 					<td {...cell.getCellProps()}>{cell.render('Cell')}</td>
 				  ))}

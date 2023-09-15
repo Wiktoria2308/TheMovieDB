@@ -20,8 +20,15 @@ const getResults = async (endpoint) => {
 	return response.data.results
 }
 
-const getMoviesByCategoryPagination = async (resource, page = 1) => {
-	return get(`/movie/${resource}?api_key=${import.meta.env.VITE_TMDB_API_KEY}&language=en-US&page=${page}&region=US`)
+const getMoviesByCategoryPagination = async (category, resource, page = 1) => {
+	
+	if(resource === "on_the_air" || (resource === "popular" && category === "tv")){
+		console.log(category, resource)
+		return get(`/${category}/${resource}?api_key=${import.meta.env.VITE_TMDB_API_KEY}&language=en-US&page=${page}&with_original_language=en`)
+	}
+	else {
+		return get(`/${category}/${resource}?api_key=${import.meta.env.VITE_TMDB_API_KEY}&language=en-US&page=${page}&region=US`)
+	}
 }
 
 
@@ -34,12 +41,18 @@ const getActor = (id) => {
 }
 
 
-const getGenres = async () => {
-	return get(`/genre/movie/list?api_key=${import.meta.env.VITE_TMDB_API_KEY}&language=en-US`)
+const getGenres = async (type) => {
+	return get(`/genre/${type}/list?api_key=${import.meta.env.VITE_TMDB_API_KEY}&language=en-US`)
 }
 
-const getMoviesByGenre = (id, page) => {
-	return get(`/discover/movie?api_key=${import.meta.env.VITE_TMDB_API_KEY}&language=en-US&region=us&include_adult=false!&page=${page}&with_genres=${id}`)
+const getMoviesByGenre = (id, page, type) => {
+	if(type === "tv"){
+		return get(`/discover/${type}?api_key=${import.meta.env.VITE_TMDB_API_KEY}&language=en-US&with_original_language=en&include_adult=false&page=${page}&with_genres=${id}`)
+	}
+	else {
+		return get(`/discover/${type}?api_key=${import.meta.env.VITE_TMDB_API_KEY}&language=en-US&region=us&include_adult=false&page=${page}&with_genres=${id}`)
+
+	}
 }
 /**
  * Search movie
@@ -54,8 +67,13 @@ const getSearchMovies = (query, page) => {
 /**
  * Get a list of similar movies.
  */
-const getSimilarMovies = (id) => {
-	return get(`movie/${id}/similar?api_key=${import.meta.env.VITE_TMDB_API_KEY}&language=en-US`)
+const getSimilarMovies = (id, category) => {
+	return get(`${category}/${id}/similar?api_key=${import.meta.env.VITE_TMDB_API_KEY}&language=en-US`)
+}
+
+export const getMoviesImages = ({ queryKey }) => {
+	const [_key, id, category] = queryKey
+	return get(`${category}/${id}/images?api_key=${import.meta.env.VITE_TMDB_API_KEY}`)
 }
 
 /**
@@ -63,8 +81,8 @@ const getSimilarMovies = (id) => {
  * @param {*} time = 'day' or 'week' string
  * @returns 
  */
-const getTrendingMovies = (time, page) => {
-	return get(`trending/movie/${time}?api_key=${import.meta.env.VITE_TMDB_API_KEY}&language=en-US&page=${page}`)
+const getTrendingMovies = (category, time, page) => {
+	return get(`trending/${category}/${time}?api_key=${import.meta.env.VITE_TMDB_API_KEY}&language=en-US&page=${page}`)
 }
 
 
@@ -73,8 +91,8 @@ const getTrailer = (id, type) => {
 }
 
 export const getMoviesByType = async ({ queryKey }) => { 
-	const [_key, type, page] = queryKey
-	return getMoviesByCategoryPagination(type, page)
+	const [_key, category, type, page] = queryKey
+	return getMoviesByCategoryPagination(category, type, page)
 }
 
 /**
@@ -108,6 +126,7 @@ const exports = {
 	getTV,
 	getTrailer,
 	getMoviesByType,
+	getMoviesImages,
 }
 
 export default exports

@@ -58,7 +58,7 @@ const MoviesCarousel = ({ movies, text, type }) => {
         <div className="carousel-card" key={index}>
           <div className="carousel-card-content">
             {type === "movie" ? 
-            <a href={`/movies/${movie.id}`}>
+            <a href={`/movie/${movie.id}`}>
             <img
               src={movie.poster_path === null ? MovieImage : `https://image.tmdb.org/t/p/w500${movie.poster_path}`}
               alt="movie poster"
@@ -75,7 +75,8 @@ const MoviesCarousel = ({ movies, text, type }) => {
                 <AiFillStar color="yellow" className="rating-icon"/>
                 <span> {Number(movie.vote_average).toFixed(1)}</span>
               </div>
-              {type === "movie" ?  <a className="carousel-movie-title" href={`/movies/${movie.id}`}>{movie.title}</a> : null}
+              <p className="movie-year">{movie.release_date ? movie.release_date.substring(0, 4) : movie.first_air_date ? movie.first_air_date.substring(0, 4) : null}</p>
+              {type === "movie" ?  <a className="carousel-movie-title" href={`/movie/${movie.id}`}>{movie.title}</a> : null}
               {type === "tv" ?  <a className="carousel-movie-title" href={`/tv/${movie.id}`}>{movie.name}</a> : null}              
               <div className="carousel-card-trailer" onClick={() => handleTrailer(movie)}>
                 <AiFillPlayCircle color="white" className="play-icon"/>

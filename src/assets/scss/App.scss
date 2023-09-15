@@ -111,6 +111,20 @@ $red-color: #901d00;
   padding: 1rem 0;
 
   .nav-container {
+    .dropdown-menu.show{
+      min-width: 200px;
+      background-color: #212529;
+      border-radius: 0;
+      a {
+        color: white;
+        padding-top: 0.3rem;
+        padding-bottom: 0.3rem;
+      }
+     .dropdown-item:hover {
+      background-color: #212529;
+      text-decoration: underline;
+     }
+    }
     .navbar-nav {
       padding: 0 0 0 4rem;
     }
@@ -158,6 +172,37 @@ $red-color: #901d00;
       }
     }
   }
+  .dropdown-submenu-container{
+    padding-top: 0.3rem;
+    padding-bottom: 0.3rem;
+   .dropdown-submenu.dropdown-toggle:has(.dropdown-menu.show){
+    background-color: #404850 !important;
+   }
+    .dropdown-submenu.dropdown-toggle:hover {
+      text-decoration: none !important;
+      cursor: pointer;
+    }
+   
+  .dropdown-menu.show{
+    background-color: #404850 !important;
+    border-radius: 0 !important;
+    padding-left: 10px;
+    border-width: 0 0 0 1px !important;
+    border-color: white !important;
+    border-style: solid !important;
+    a{
+    
+    color: white;
+    border:none !important; 
+    padding: 0.5rem !important;
+      &:hover{
+        background-color: #404850 !important;
+        text-decoration: underline !important;
+        
+      }
+    }
+  }
+}
 }
 
 .no-search-results-icon {
@@ -166,9 +211,6 @@ $red-color: #901d00;
 
 .table {
   width: max-content;
-}
-.table-row:hover {
-  cursor: pointer;
 }
 
 .sidebar-container {
@@ -197,14 +239,38 @@ $red-color: #901d00;
   th {
     border-color: #404850;
   }
+  .load-more-button-container{
+    margin-top: 2rem;
+    margin-bottom: 2rem;
+    button {
+      padding: 0.8rem 2rem;
+      border: 0;
+      border-radius: 5px;
+      background-color: #404850;
+      color: white;
+      font-size: 1rem;
+      &:hover{
+        color: $orange-color;
+      }
+    }
+  }
+  .rating-icon {
+    font-size: 0.9rem;
+  }
+  .rating-number {
+    margin-left: 5px;
+    font-size: 0.8rem;
+  }
 }
 .actor-page-container {
   padding-bottom: 5rem;
   background-color: rgb(23, 23, 23);
-  .actor-death-age{
+  .actor-death-age, .actor-age{
     color: #7c7e80;
   }
-
+  .actor-biography {
+    width: 50%;
+  }
   .show-biography-button {
     margin-bottom: 2rem;
     padding: 0.5rem 1rem;
@@ -260,6 +326,18 @@ $red-color: #901d00;
 .movie-page-container {
   padding-bottom: 5rem;
   background-color: rgb(23, 23, 23);
+  .show-overview-button {
+    margin-bottom: 2rem;
+    padding: 0.5rem 1rem;
+    border: 0;
+    border-radius: 5px;
+    background-color: #404850;
+    color: white;
+    font-size: 0.8rem;
+    &:hover{
+      color: $orange-color;
+    }
+  }
   .movie-page-intro-content {
     color: white;
     padding-top: 3rem;
@@ -289,6 +367,9 @@ $red-color: #901d00;
     }
   }
   .movie-info-container {
+    img {
+      max-height: 450px;
+    }
     color: white;
     display: flex;
     padding-bottom: 3rem;
@@ -386,6 +467,11 @@ $red-color: #901d00;
 .carousel-wrapper {
   margin-top: 20px;
 
+  .movie-year {
+    font-size: 11px;
+    margin-bottom: 0.3rem;
+    margin-top: 0.4rem;
+  }
   .carousel-card {
     display: flex;
     align-items: center;
@@ -427,6 +513,75 @@ $red-color: #901d00;
     }
   }
 }
+
+.movies-images-carousel {
+  margin-bottom: 4rem;
+  margin-top: 4rem;
+  .movies-images-heading {
+    color: $orange-color;
+    font-size: 16px;
+    margin-left: 13px;
+    margin-bottom: 0;
+  }
+  img {
+    max-width: 100%;
+    height: auto;
+    cursor: pointer;
+  }
+  .carousel-card {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 15px;
+  }
+
+.image-modal-overlay {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.7);
+  z-index: 1999;
+}
+
+.image-modal {
+  position: relative;
+  background-color: #fff;
+  max-width: 80%;
+  max-height: 80%;
+  overflow: auto;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.close-button {
+  position: absolute;
+  top: 5px;
+  right: 5px;
+  font-size: 30px;
+  cursor: pointer;
+  color: #888;
+  
+  &:hover {
+    color: #333;
+  }
+}
+
+.image-modal img {
+  background-color: #fff;
+  display: block;
+  margin: 0 auto;
+  max-width: 100%;
+  max-height: 100%;
+  padding: 35px;
+  cursor:default;
+}
+
+}
+
 .carousel-person-wrapper {
   padding-top: 2rem;
   .carousel-person-heading {
@@ -437,7 +592,7 @@ $red-color: #901d00;
   }
   .carousel-person-title {
     font-size: 0.9rem;
-    margin-top: 0;
+    margin-top: 0.2rem;
     margin-bottom: 0;
     text-align: center;
   }
@@ -491,10 +646,9 @@ $red-color: #901d00;
   -webkit-box-orient: vertical;
   -webkit-line-clamp: 2;
   display: -webkit-box;
-  height: 2.3rem;
+  height: 2.5rem;
   overflow: hidden;
   text-overflow: ellipsis;
-  margin-top: 0.9rem;
   margin-bottom: 0.5rem;
   cursor: pointer;
   text-decoration: none;
@@ -630,11 +784,16 @@ $red-color: #901d00;
 
 .result-title-container {
   .result-title-media-type {
-    color: $red-color;
+    color: $orange-color;
     font-size: 0.7rem;
   }
   .result-title {
     font-size: 1rem;
+    text-decoration: none;
+    color: white;
+    &:hover {
+      text-decoration: underline;
+    }
   }
   .result-title-date {
     font-size: 0.8rem;
@@ -685,6 +844,17 @@ $red-color: #901d00;
 
 
 @media (max-width: 767px) {
+  .movies-images-carousel {
+    .close-button {
+      top: 0;
+      right: 0;
+      font-size: 20px;
+    }
+    
+    .image-modal img {
+      padding: 18px;
+    }
+  }
   .all-movies-list {
       
     h5 {
@@ -697,6 +867,7 @@ $red-color: #901d00;
     }
   }
   .actor-page-container {
+
     .show-biography-button {
       margin-bottom: 3rem;
     }
@@ -829,6 +1000,9 @@ $red-color: #901d00;
   }
   .actor-page-container {
     .info-table {
+      width: 100%;
+    }
+    .actor-biography {
       width: 100%;
     }
   }

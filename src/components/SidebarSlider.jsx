@@ -24,7 +24,7 @@ const SidebarSlider = ({ movies, text, type }) => {
         <div className="slider-card" key={index}>
          
             {type === "movie" ? 
-            <a className='image-link' href={`/movies/${movie.id}`}>
+            <a className='image-link' href={`/movie/${movie.id}`}>
             <img
               src={movie.poster_path === null ? MovieImage : `https://image.tmdb.org/t/p/w500${movie.poster_path}`}
               alt="movie poster"
