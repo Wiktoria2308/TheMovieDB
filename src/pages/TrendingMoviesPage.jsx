@@ -37,7 +37,7 @@ const TrendingMoviesPage = () => {
       {
         accessor: "poster_path",
         Cell: (tableProps) => (
-          <a href={`/movie/${tableProps.row.original.id}`}>
+          <a href={`/${category}/${tableProps.row.original.id}`}>
             <Image
               src={
                 tableProps.row.original.poster_path === null

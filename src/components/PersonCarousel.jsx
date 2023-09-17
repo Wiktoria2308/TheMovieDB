@@ -21,11 +21,11 @@ const responsive = {
   }
 };
 
-const PersonCarousel = ({ cast }) => {
+const PersonCarousel = ({ cast, text }) => {
 
   return (
     <div className="carousel-wrapper carousel-person-wrapper">
-    <h4 className="carousel-person-heading">Cast</h4>
+    <h4 className="carousel-person-heading">{text}</h4>
     <Carousel
       swipeable={true}
       draggable={false}
@@ -50,7 +50,7 @@ const PersonCarousel = ({ cast }) => {
             </a>
             <div className="movie-card-text-content person-card-text-content">
              <a className="carousel-movie-title carousel-person-title" href={`/person/${person.id}`}>{person.name}</a>
-             <a className="carousel-movie-title carousel-person-character">{person.character}</a>
+             <a className="carousel-movie-title carousel-person-character">{person.character ? person.character : person.job}</a>
             </div>
           </div>
         </div>

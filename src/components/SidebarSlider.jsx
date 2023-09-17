@@ -42,7 +42,7 @@ const SidebarSlider = ({ movies, text, type }) => {
                 <AiFillPlayCircle color="white" className="play-icon"/>
                 <span>Trailer</span>
               </div>
-              {type === "movie" ?  <a className="slider-movie-title" href={`/movies/${movie.id}`}>{movie.title}</a> : null}
+              {type === "movie" ?  <a className="slider-movie-title" href={`/movie/${movie.id}`}>{movie.title}</a> : null}
               {type === "tv" ?  <a className="slider-movie-title" href={`/tv/${movie.id}`}>{movie.name}</a> : null}
 
               <p className='movie-date'>{movie.release_date.slice(0,4)}</p>

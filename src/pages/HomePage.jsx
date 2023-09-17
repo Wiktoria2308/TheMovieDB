@@ -1,7 +1,6 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
 import useMovies from "../hooks/useMovies";
-import usePopularSeries from "../hooks/usePopularSeries";
 import MoviesCarousel from "../components/MoviesCarousel";
 import SidebarSlider from "../components/SidebarSlider";
 import MovieImage from "../assets/images/movie.png";
@@ -19,22 +18,13 @@ const HomePage = () => {
   };
 
   const {
-    data: popularMovies,
-    error: errorMovies,
-    isError: isErrorMovies,
-    isLoading: isLoadingMovies,
+    data: popularMovies
   } = useMovies('movie', "popular", 1);
   const {
-    data: popularSeries,
-    error: errorSeries,
-    isError: isErrorSeries,
-    isLoading: isLoadingSeries,
-  } = usePopularSeries();
+    data: popularSeries
+  } = useMovies('tv',"popular", 1);
   const {
-    data: topMovies,
-    error: errorTop,
-    isError: isErrorTop,
-    isLoading: isLoadingTop,
+    data: topMovies
   } = useMovies('movie',"top_rated", 1);
 
   return (
@@ -60,7 +50,7 @@ const HomePage = () => {
           ) : null}
           {popularSeries ? (
             <MoviesCarousel
-              movies={popularSeries}
+              movies={popularSeries.results}
               type="tv"
               text="Most popular TV series"
             />

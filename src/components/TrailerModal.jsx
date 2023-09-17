@@ -11,7 +11,7 @@ const TrailerModal = ({setTrailerId, setTrailerName, id, type, name}) => {
   const [showTeaser, setShowTeaser] = useState(false)
   const [showTrailer, setShowTrailer] = useState(false)
 
-  const { data: trailer, error, isError, isLoading } = useTrailer(id, type)
+  const { data: trailer} = useTrailer(id, type)
 
   const handleClose = () => {
     setTrailerId(null);

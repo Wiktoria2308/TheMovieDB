@@ -8,13 +8,14 @@ import { Link } from "react-router-dom";
 import MovieImage from "../assets/images/movie.png";
 import useSimilarMovies from "../hooks/useSimilarMovies";
 import useLocalStorage from "../hooks/useLocalStorage";
-import { AiFillStar } from "react-icons/ai";
+import { AiFillStar, AiFillPlayCircle } from "react-icons/ai";
 import PersonCarousel from "../components/PersonCarousel";
 import MoviesCarousel from "../components/MoviesCarousel";
 import { useState } from "react";
 import PersonImage from "../assets/images/actor.png";
 import useMoviesImages from "../hooks/useMoviesImages";
 import ImagesCarousel from "../components/ImagesCarousel";
+import TrailerModal from "../components/TrailerModal";
 
 const MoviePage = () => {
   const { category, id } = useParams();
@@ -27,9 +28,9 @@ const MoviePage = () => {
   const { data: moviesImages } = useMoviesImages(id, category);
   const { data: similarMovies } = useSimilarMovies(id, category);
   const [showAllCast, setShowAllCast] = useState(false);
+  const [showAllCrew, setShowAllCrew] = useState(false);
   const [showAllMovies, setShowAllMovies] = useState(false);
   const [showFullOverview, setShowFullOverview] = useState(false);
-
 
   const toggleOverview = () => {
     setShowFullOverview(!showFullOverview);
@@ -50,14 +51,30 @@ const MoviePage = () => {
     setShowAllCast(!showAllCast);
   };
 
+  const toggleAllCrew = () => {
+    setShowAllCrew(!showAllCrew);
+  };
+
+  const [trailerId, setTrailerId] = useState(null);
+  const [trailerName, setTrailerName] = useState(null);
+
+  const handleTrailer = (movie) => {
+    setTrailerId(movie.id);
+    if (category === "movie") {
+      setTrailerName(movie.title);
+    } else {
+      setTrailerName(movie.name);
+    }
+  };
+
   return (
     <div className="movie-page-container">
+      {isLoading && <LoadingSpinner />}
+
+      {isError && <WarningAlert message={error.message} />}
+
       {movie ? (
         <Container className="py-4">
-          {isLoading && <LoadingSpinner />}
-
-          {isError && <WarningAlert message={error.message} />}
-
           <div className="movie-page-intro-content">
             <div className="intro-content">
               <h3 className="mb-0 text-uppercase">
@@ -117,6 +134,13 @@ const MoviePage = () => {
                 <span className="rating-number">
                   {Number(movie.vote_average).toFixed(1)}
                 </span>
+                <div
+                  className="movie-page-trailer"
+                  onClick={() => handleTrailer(movie)}
+                >
+                  <AiFillPlayCircle color="white" className="play-icon" />
+                  <span>Trailer</span>
+                </div>
               </div>
             </div>
           </div>
@@ -131,19 +155,17 @@ const MoviePage = () => {
               width={300}
             ></img>
             <div className="movie-info">
-
               <p className="pt-2 movie-overview">
-                  {splitOverview(movie.overview).join("\n")}{" "}
-                </p>
-                {movie.overview.split("\n").length > 4 && (
-                  <button
-                    className="show-overview-button"
-                    onClick={toggleOverview}
-                  >
-                    {showFullOverview ? "Show Less" : "Show More"}
-                  </button>
-                )}
-
+                {splitOverview(movie.overview).join("\n")}{" "}
+              </p>
+              {movie.overview.split("\n").length > 4 && (
+                <button
+                  className="show-overview-button"
+                  onClick={toggleOverview}
+                >
+                  {showFullOverview ? "Show Less" : "Show More"}
+                </button>
+              )}
 
               <div className="info-table">
                 {movie.credits &&
@@ -245,26 +267,31 @@ const MoviePage = () => {
                   </div>
                 ) : null}
 
-              {movie.genres && movie.genres.length > 1 ? 
-                <div className="info-row">
-                  <div className="header-column">
-                    <p className="fw-bold movie-info-title">Genre</p>
+                {movie.genres && movie.genres.length > 1 ? (
+                  <div className="info-row">
+                    <div className="header-column">
+                      <p className="fw-bold movie-info-title">Genre</p>
+                    </div>
+                    <div className="info-column">
+                      <p>
+                        {movie.genres.map((genre, index, array) => (
+                          <span className="movie-crew-link" key={genre.id}>
+                            <Link
+                              to={`/${
+                                category === "movie"
+                                  ? "movies-by-genre"
+                                  : "series-by-genre"
+                              }/${genre.id}/${genre.name}`}
+                            >
+                              {genre.name}
+                            </Link>
+                            {index !== array.length - 1 ? ", " : ""}
+                          </span>
+                        ))}
+                      </p>
+                    </div>
                   </div>
-                  <div className="info-column">
-                    <p>
-                      {movie.genres.map((genre, index, array) => (
-                        <span className="movie-crew-link" key={genre.id}>
-                          <Link
-                            to={`/${category === 'movie' ? 'movies-by-genre' : 'series-by-genre'}/${genre.id}/${genre.name}`}
-                          >
-                            {genre.name}
-                          </Link>
-                          {index !== array.length - 1 ? ", " : ""}
-                        </span>
-                      ))}
-                    </p>
-                  </div>
-                </div> : null }
+                ) : null}
               </div>
             </div>
           </div>
@@ -311,7 +338,7 @@ const MoviePage = () => {
                   </div>
                 </div>
               ) : (
-                <PersonCarousel cast={movie.credits.cast} />
+                <PersonCarousel cast={movie.credits.cast} text="Cast" />
               )}
               <div className="show-cast-button-container mt-4">
                 <button onClick={toggleAllCast}>
@@ -320,7 +347,49 @@ const MoviePage = () => {
               </div>
             </div>
           ) : null}
-
+          {movie.credits && movie.credits.crew.length > 0 ? (
+            <div className="cast-list-container">
+              {showAllCrew ? (
+                <div className="cast-list">
+                  <h5 className="mb-4">All crew</h5>
+                  <div className="cast-columns">
+                    {movie.credits.crew.map((cast, index) => (
+                      <div key={index} className="cast-item">
+                        <a href={`/person/${cast.id}`}>
+                          <img
+                            src={
+                              cast.profile_path === null
+                                ? PersonImage
+                                : `https://image.tmdb.org/t/p/w500${cast.profile_path}`
+                            }
+                            alt="person-poster"
+                          />
+                        </a>
+                        <div>
+                          <Link
+                            className="movies-cast-title-link"
+                            to={`/person/${cast.id}`}
+                          >
+                            {cast.name}
+                          </Link>
+                          <p className="movies-cast-character">
+                            {cast.job}
+                          </p>
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              ) : (
+                <PersonCarousel cast={movie.credits.crew} text="Crew" />
+              )}
+              <div className="show-cast-button-container mt-4">
+                <button onClick={toggleAllCrew}>
+                  {showAllCast ? "Close All crew" : "All crew"}
+                </button>
+              </div>
+            </div>
+          ) : null}
           {similarMovies && similarMovies.results.length > 0 ? (
             <>
               {showAllMovies ? (
@@ -347,7 +416,9 @@ const MoviePage = () => {
                             {movie.title}
                           </Link>
                           <p className="actor-movies-year">
-                            {movie.release_date ? movie.release_date.substring(0, 4) : null}
+                            {movie.release_date
+                              ? movie.release_date.substring(0, 4)
+                              : null}
                           </p>
                         </div>
                       </div>
@@ -357,24 +428,37 @@ const MoviePage = () => {
               ) : (
                 <MoviesCarousel
                   movies={similarMovies.results.slice(0, 12)}
-                  text={category === "movie" ? "Similar movies" : "Similar series"}
+                  text={
+                    category === "movie" ? "Similar movies" : "Similar series"
+                  }
                   type={category === "movie" ? "movie" : "tv"}
                 />
               )}
-              {category === "movies" ? 
-              <div className="show-cast-button-container mt-4">
-                <button onClick={toggleAllMovies}>
-                  {showAllMovies ? "Close All movies" : "All movies"}
-                </button>
-              </div>
-              :  <div className="show-cast-button-container mt-4">
-              <button onClick={toggleAllMovies}>
-                {showAllMovies ? "Close All series" : "All series"}
-              </button>
-            </div> }
+              {category === "movies" ? (
+                <div className="show-cast-button-container mt-4">
+                  <button onClick={toggleAllMovies}>
+                    {showAllMovies ? "Close All movies" : "All movies"}
+                  </button>
+                </div>
+              ) : (
+                <div className="show-cast-button-container mt-4">
+                  <button onClick={toggleAllMovies}>
+                    {showAllMovies ? "Close All series" : "All series"}
+                  </button>
+                </div>
+              )}
             </>
           ) : null}
         </Container>
+      ) : null}
+      {trailerId ? (
+        <TrailerModal
+          setTrailerId={setTrailerId}
+          setTrailerName={setTrailerName}
+          id={trailerId}
+          type={category}
+          name={trailerName}
+        />
       ) : null}
     </div>
   );

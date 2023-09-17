@@ -110,6 +110,10 @@ $red-color: #901d00;
 .navbar {
   padding: 1rem 0;
 
+  .dropdown-divider {
+    border-color: #545e69 !important;
+  }
+
   .nav-container {
     .dropdown-menu.show{
       min-width: 200px;
@@ -338,6 +342,25 @@ $red-color: #901d00;
       color: $orange-color;
     }
   }
+  .movie-page-trailer {
+    margin-left: 20px;
+    display: flex;
+    width: max-content;
+    padding: 5px 8px;
+    align-items: center;
+    cursor: pointer;
+    border-radius: 5px;
+  
+    &:hover {
+      background-color: #404850;
+    }
+  
+    span {
+      margin-left: 5px;
+      font-size: 16px;
+      font-weight: lighter;
+    }
+  }
   .movie-page-intro-content {
     color: white;
     padding-top: 3rem;
@@ -392,6 +415,9 @@ $red-color: #901d00;
   }
   .cast-list-container{
     margin-bottom: 3rem;
+  }
+  .crew-list-container{
+    margin-bottom: 5rem;
   }
 
   .movie-cast-container li,
@@ -498,6 +524,10 @@ $red-color: #901d00;
     font-size: 16px;
     margin-left: 13px;
     margin-bottom: 0;
+  }
+  .carousel-title-crew {
+    color: $orange-color;
+    font-size: 16px;
   }
 
   .carousel-movies-ratings {
@@ -836,6 +866,9 @@ $red-color: #901d00;
     .actor-movies-year {
       font-size: 0.8rem;
       color: $orange-color;
+    }
+    .actor-movies-job {
+      font-size: 0.8rem;
     }
   }
 }

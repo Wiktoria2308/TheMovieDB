@@ -16,7 +16,6 @@ const Navigation = () => {
     navigateSearch("search", { query: query, page: page });
   };
 
-  // here send time as day or week to navigate to selected page like: trending-movies/day
   const handleTrendingMovies = async (time) => {
     navigateSearch("/movie/trending-movies", { time });
   };

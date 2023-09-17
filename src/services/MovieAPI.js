@@ -23,7 +23,6 @@ const getResults = async (endpoint) => {
 const getMoviesByCategoryPagination = async (category, resource, page = 1) => {
 	
 	if(resource === "on_the_air" || (resource === "popular" && category === "tv")){
-		console.log(category, resource)
 		return get(`/${category}/${resource}?api_key=${import.meta.env.VITE_TMDB_API_KEY}&language=en-US&page=${page}&with_original_language=en`)
 	}
 	else {
@@ -95,20 +94,6 @@ export const getMoviesByType = async ({ queryKey }) => {
 	return getMoviesByCategoryPagination(category, type, page)
 }
 
-/**
- * 
- * Series
- * 
- */
-const getSeriesByCategory = async (resource, page = 1) => {
-	return getResults(`/tv/${resource}?api_key=${import.meta.env.VITE_TMDB_API_KEY}&language=en-US&page=${page}&with_original_language=en`)
-}
-
-const getPopularSeries = async ({ queryKey }) => {
-	const [_key, page] = queryKey
-	return getSeriesByCategory('popular', page)
-}
-
 const getTV = (id) => {
 	return get(`/tv/${id}?api_key=${import.meta.env.VITE_TMDB_API_KEY}&language=en-US&append_to_response=credits`)
 }
@@ -122,7 +107,6 @@ const exports = {
 	getSearchMovies,
 	getSimilarMovies,
 	getTrendingMovies,
-	getPopularSeries,
 	getTV,
 	getTrailer,
 	getMoviesByType,

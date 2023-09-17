@@ -8,12 +8,14 @@ import ActorImage from "../assets/images/actor.png";
 import MoviesCarousel from "../components/MoviesCarousel";
 import { Link } from "react-router-dom";
 import MovieImage from "../assets/images/movie.png";
+import MoviesCarouselCrew from "../components/MoviesCarouselCrew";
 
 const ActorPage = () => {
   const { id } = useParams();
   const { data: actor, error, isError, isLoading } = useActor(id);
   const [showFullBiography, setShowFullBiography] = useState(false);
   const [showAllMovies, setShowAllMovies] = useState(false);
+  const [showAllMoviesCrew, setShowAllMoviesCrew] = useState(false);
   const [ageOfDeath, setAgeofDeath] = useState(null);
   const [age, setAge] = useState(null);
 
@@ -28,6 +30,10 @@ const ActorPage = () => {
 
   const toggleAllMovies = () => {
     setShowAllMovies(!showAllMovies);
+  };
+
+  const toggleAllMoviesCrew = () => {
+    setShowAllMoviesCrew(!showAllMoviesCrew);
   };
 
   function calculateExactAgeAtDeath(birthdate, deathdate) {
@@ -52,47 +58,57 @@ const ActorPage = () => {
   function calculateAge(birthdate) {
     const birthDateObj = new Date(birthdate);
     const currentDate = new Date();
-  
+
     if (isNaN(birthDateObj)) {
       return "Invalid date";
     }
-  
+
     let years = currentDate.getFullYear() - birthDateObj.getFullYear();
     let months = currentDate.getMonth() - birthDateObj.getMonth();
     let days = currentDate.getDate() - birthDateObj.getDate();
-  
+
     if (months < 0 || (months === 0 && days < 0)) {
       years--;
       months += 12;
     }
-  
+
     return `(${years})`;
   }
-  
 
   useEffect(() => {
     if (actor) {
-      if(actor.birthday && actor.deathday) {
-      const ageAtDeath = calculateExactAgeAtDeath(
-        actor.birthday,
-        actor.deathday
-      );
-      setAgeofDeath(ageAtDeath);
+      if (actor.birthday && actor.deathday) {
+        const ageAtDeath = calculateExactAgeAtDeath(
+          actor.birthday,
+          actor.deathday
+        );
+        setAgeofDeath(ageAtDeath);
+      }
+      if (actor.birthday && !actor.deathday) {
+        const actorAge = calculateAge(actor.birthday);
+        setAge(actorAge);
+      }
     }
-    if(actor.birthday && !actor.deathday){
-      const actorAge = calculateAge(actor.birthday);
-      setAge(actorAge);
-    }
-  }
   }, [actor]);
+
+  const filteredCrew = actor?.credits.crew.filter(
+    (movie) => movie.job !== "Thanks"
+  );
+
+  const sortedMovies = actor?.credits.cast
+  .slice()
+  .sort((a, b) => {
+    return new Date(b.release_date) - new Date(a.release_date);
+  });
 
   return (
     <div className="actor-page-container">
+      {isLoading && <LoadingSpinner />}
+
+      {isError && <WarningAlert message={error.message} />}
+
       {actor && (
         <Container className="py-3">
-          {isLoading && <LoadingSpinner />}
-
-          {isError && <WarningAlert message={error.message} />}
           <div className="actor-page-intro-content">
             <h3>{actor.name}</h3>
 
@@ -126,7 +142,10 @@ const ActorPage = () => {
                       <p className="fw-bold actor-info-title">Birthday</p>
                     </div>
                     <div className="info-column">
-                      <p>{actor.birthday} <span className="actor-age">{age}</span></p>
+                      <p>
+                        {actor.birthday}{" "}
+                        <span className="actor-age">{age}</span>
+                      </p>
                     </div>
                   </div>
                   {actor.deathday ? (
@@ -153,13 +172,61 @@ const ActorPage = () => {
                 </div>
               </div>
             </div>
-            {actor.credits.cast.length > 0 ? (
+            {sortedMovies && sortedMovies.length > 0 ? (
               <>
                 {showAllMovies ? (
                   <div className="all-movies-list">
                     <h5 className="mb-4">All Movies</h5>
                     <div className="movies-columns">
-                      {actor.credits.cast.map((movie, index) => (
+                      {sortedMovies
+                        .map((movie, index) => (
+                          <div key={index} className="movie-item">
+                            <a href={`/movie/${movie.id}`}>
+                              <img
+                                src={
+                                  movie.poster_path === null
+                                    ? MovieImage
+                                    : `https://image.tmdb.org/t/p/w500${movie.poster_path}`
+                                }
+                                alt="movie-poster"
+                              />
+                            </a>
+                            <div>
+                              <Link
+                                className="actor-movies-title-link"
+                                to={`/movie/${movie.id}`}
+                              >
+                                {movie.title}
+                              </Link>
+                              <p className="actor-movies-year">
+                                {movie.release_date.substring(0, 4)}
+                              </p>
+                            </div>
+                          </div>
+                        ))}
+                    </div>
+                  </div>
+                ) : (
+                  <MoviesCarousel
+                    movies={sortedMovies.slice(0, 12)}
+                    text="Actor"
+                    type="movie"
+                  />
+                )}
+                <div className="show-cast-button-container mt-4">
+                  <button onClick={toggleAllMovies}>
+                    {showAllMovies ? "Close All movies" : "All movies"}
+                  </button>
+                </div>
+              </>
+            ) : null}
+            {filteredCrew && filteredCrew.length > 0 ? (
+              <>
+                {showAllMoviesCrew ? (
+                  <div className="all-movies-list">
+                    <h5 className="mb-4">All Movies</h5>
+                    <div className="movies-columns">
+                      {filteredCrew.map((movie, index) => (
                         <div key={index} className="movie-item">
                           <a href={`/movie/${movie.id}`}>
                             <img
@@ -174,28 +241,29 @@ const ActorPage = () => {
                           <div>
                             <Link
                               className="actor-movies-title-link"
-                              to={`/movies/${movie.id}`}
+                              to={`/movie/${movie.id}`}
                             >
                               {movie.title}
                             </Link>
-                            <p className="actor-movies-year">
+                            <p className="actor-movies-year mb-1">
                               {movie.release_date.substring(0, 4)}
                             </p>
+                            <p className="actor-movies-job">{movie.job}</p>
                           </div>
                         </div>
                       ))}
                     </div>
                   </div>
                 ) : (
-                  <MoviesCarousel
-                    movies={actor.credits.cast.slice(0, 12)}
-                    text="Movies"
+                  <MoviesCarouselCrew
+                    movies={filteredCrew.slice(0, 12)}
+                    text=""
                     type="movie"
                   />
                 )}
                 <div className="show-cast-button-container mt-4">
-                  <button onClick={toggleAllMovies}>
-                    {showAllMovies ? "Close All movies" : "All movies"}
+                  <button onClick={toggleAllMoviesCrew}>
+                    {showAllMoviesCrew ? "Close All movies" : "All movies"}
                   </button>
                 </div>
               </>
