@@ -1,7 +1,8 @@
 import Carousel from "react-multi-carousel";
 import "react-multi-carousel/lib/styles.css";
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import {MdOutlineClose} from 'react-icons/md'
+import LoadingSpinner from "./LoadingSpinner";
 
 const responsive = {
   desktop: {
@@ -23,6 +24,7 @@ const responsive = {
 
 const ImagesCarousel = ({ images }) => {
     const [selectedImage, setSelectedImage] = useState(null);
+    const [isLoading, setIsLoading] = useState(false);
     const imageModalRef = useRef(null);
 
     const handleOverlayClick = (e) => {
@@ -33,11 +35,31 @@ const ImagesCarousel = ({ images }) => {
 
     const openImageModal = (path) => {
       setSelectedImage(path);
+      setIsLoading(true);
     };
   
     const closeImageModal = () => {
       setSelectedImage(null);
+      setIsLoading(false);
     };
+  
+
+    useEffect(() => {
+      const handleImageLoad = () => {
+        setIsLoading(false);
+      };
+  
+      if (selectedImage) {
+        const imgElement = new Image();
+        imgElement.src = `https://image.tmdb.org/t/p/original${selectedImage}`;
+        imgElement.addEventListener('load', handleImageLoad);
+  
+        return () => {
+          imgElement.removeEventListener('load', handleImageLoad);
+        };
+      }
+    }, [selectedImage]);
+    
   return (
     <div className="movies-images-carousel">
       <h4 className="movies-images-heading">Images</h4>
@@ -71,10 +93,14 @@ const ImagesCarousel = ({ images }) => {
           ref={imageModalRef}>
           <div className="image-modal">
              <MdOutlineClose className="close-button" onClick={closeImageModal}/>
-            <img
-              src={`https://image.tmdb.org/t/p/original${selectedImage}`}
-              alt="larger movie image"
-            />
+             {isLoading ? (
+              <LoadingSpinner />
+            ) : (
+              <img
+                src={`https://image.tmdb.org/t/p/original${selectedImage}`}
+                alt="larger movie image"
+              />
+            )}
           </div>
         </div>
       )}
