@@ -16,10 +16,9 @@ const SearchForm = ({ onSearch }) => {
 		}
 		onSearch(searchInput)
 		setSearchInput('')
-		searchInputRef.current.blur(); //remove focus after submitting the form
+		searchInputRef.current.blur();
 	}
 
-	// react to changes in our page state
 	useEffect(() => {
 		searchInputRef.current.focus()
 	}, [])

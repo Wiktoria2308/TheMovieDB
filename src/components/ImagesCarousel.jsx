@@ -51,7 +51,7 @@ const ImagesCarousel = ({ images }) => {
         keyBoardControl={true}
         transitionDuration={0}
         containerClass="carousel-container"
-        removeArrowOnDeviceType={["tablet", "mobile"]}
+        // removeArrowOnDeviceType={["tablet", "mobile"]}
       >
         {images.map((image, index) => (
           <div className="carousel-card" key={index}>

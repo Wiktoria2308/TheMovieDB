@@ -36,7 +36,6 @@ const PersonCarousel = ({ cast, text }) => {
       keyBoardControl={true}
       transitionDuration={0}
       containerClass="carousel-container"
-      removeArrowOnDeviceType={["tablet", "mobile"]}
     >
   {cast.slice(0, 12).map((person, index) => (
         <div className="carousel-card" key={index}>

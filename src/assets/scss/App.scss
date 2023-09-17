@@ -419,16 +419,6 @@ $red-color: #901d00;
   .crew-list-container{
     margin-bottom: 5rem;
   }
-
-  .movie-cast-container li,
-  .movie-similar-container li {
-    list-style: none;
-  }
-  .movie-cast-container li a,
-  .movie-similar-container li a {
-    text-decoration: none;
-    color: inherit;
-  }
   .cast-list {
     margin-top: 2rem;
     margin-bottom: 3rem;
@@ -947,11 +937,7 @@ $red-color: #901d00;
         }
       }
     }
-    .movie-cast-container,
-    .movie-similar-container,
-    button {
-      padding: 1rem;
-    }
+   
     .cast-list {
       h5 {
         padding-left: 1rem;

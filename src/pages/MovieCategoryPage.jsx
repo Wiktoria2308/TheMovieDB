@@ -28,12 +28,10 @@ const MovieCategoryPage = ({ type }) => {
   };
 
   useEffect(() => {
-    // Clear previous data when the category changes
     setMovies([]);
     setColumns([]);
     setPage(1);
 
-    // Refetch data based on the new category
     refetch();
   }, [type, category]);
 

@@ -52,7 +52,7 @@ const MoviesCarousel = ({ movies, text, type }) => {
       keyBoardControl={true}
       transitionDuration={0}
       containerClass="carousel-container"
-      removeArrowOnDeviceType={["tablet", "mobile"]}
+      // removeArrowOnDeviceType={["tablet", "mobile"]}
     >
   {movies.map((movie, index) => (
         <div className="carousel-card" key={index}>

@@ -44,7 +44,7 @@ const MoviePage = () => {
   const toggleAllMovies = () => {
     setShowAllMovies(!showAllMovies);
   };
-  // call localsotrage hook to save shown movie in localstorage
+ 
   useLocalStorage(movie, id);
 
   const toggleAllCast = () => {
@@ -394,7 +394,7 @@ const MoviePage = () => {
             <>
               {showAllMovies ? (
                 <div className="all-movies-list">
-                  <h5 className="mb-4">All movies</h5>
+                  <h5 className="mb-4">{category === "movie" ? 'All movies' : 'All series'}</h5>
                   <div className="movies-columns">
                     {similarMovies.results.map((movie, index) => (
                       <div key={index} className="movie-item">
@@ -413,12 +413,12 @@ const MoviePage = () => {
                             className="actor-movies-title-link"
                             to={`/movie/${movie.id}`}
                           >
-                            {movie.title}
+                            {movie.title ? movie.title : movie.name}
                           </Link>
                           <p className="actor-movies-year">
-                            {movie.release_date
-                              ? movie.release_date.substring(0, 4)
-                              : null}
+                          {category === "movie"
+                    ? movie.release_date.substring(0, 4)
+                    : `${movie.first_air_date?.substring(0, 4)}` }
                           </p>
                         </div>
                       </div>
