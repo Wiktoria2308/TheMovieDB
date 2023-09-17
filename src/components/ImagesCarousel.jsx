@@ -31,8 +31,8 @@ const ImagesCarousel = ({ images }) => {
       }
     };
 
-    const openImageModal = (imageIndex) => {
-      setSelectedImage(imageIndex);
+    const openImageModal = (path) => {
+      setSelectedImage(path);
     };
   
     const closeImageModal = () => {
@@ -53,12 +53,14 @@ const ImagesCarousel = ({ images }) => {
         containerClass="carousel-container"
         // removeArrowOnDeviceType={["tablet", "mobile"]}
       >
-        {images.map((image, index) => (
+        {images.filter(
+                (item) => item.iso_639_1 === "en" || item.iso_639_1 === null
+              ).map((image, index) => (
           <div className="carousel-card" key={index}>
               <img
               src={`https://image.tmdb.org/t/p/w500${image.file_path}`}
               alt="movie image"
-              onClick={() => openImageModal(index)}
+              onClick={() => openImageModal(image.file_path)}
             />
           </div>
         ))}
@@ -70,7 +72,7 @@ const ImagesCarousel = ({ images }) => {
           <div className="image-modal">
              <MdOutlineClose className="close-button" onClick={closeImageModal}/>
             <img
-              src={`https://image.tmdb.org/t/p/original${images[selectedImage].file_path}`}
+              src={`https://image.tmdb.org/t/p/original${selectedImage}`}
               alt="larger movie image"
             />
           </div>

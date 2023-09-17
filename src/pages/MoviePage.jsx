@@ -298,9 +298,7 @@ const MoviePage = () => {
 
           {moviesImages && moviesImages.backdrops.length > 0 ? (
             <ImagesCarousel
-              images={moviesImages.backdrops.filter(
-                (item) => item.iso_639_1 === "en" || item.iso_639_1 === null
-              )}
+              images={moviesImages.backdrops}
             />
           ) : null}
 
