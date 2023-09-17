@@ -1,5 +1,6 @@
 @import "bootstrap/scss/bootstrap";
 @import url("https://fonts.googleapis.com/css2?family=PT+Sans:ital,wght@0,400;0,700;1,400;1,700&display=swap");
+@import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&display=swap');
 
 body {
   font-family: "PT Sans", sans-serif;
@@ -35,10 +36,12 @@ $red-color: #901d00;
 
   span {
     font-size: 14px;
+    margin-bottom: -4px;
+    align-self: end;
     margin-left: 7px;
-    margin-top: 4px;
     letter-spacing: 1px;
   }
+
 }
 
 .pagination {
@@ -104,11 +107,15 @@ $red-color: #901d00;
 }
 
 .movie-icon {
-  margin-right: 10px;
+  margin-right: 5px;
+}
+.movie-logo-text{
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 25px;
 }
 
 .navbar {
-  padding: 1rem 0;
+  padding: 0.6rem 0;
 
   .dropdown-divider {
     border-color: #545e69 !important;
@@ -137,7 +144,7 @@ $red-color: #901d00;
       padding: 0;
       margin-right: 0;
       span {
-        align-self: center;
+        align-self: end;
       }
     }
     .nav-link {

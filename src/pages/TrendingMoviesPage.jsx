@@ -1,5 +1,4 @@
 import { useMemo } from "react";
-import { useNavigate } from "react-router-dom";
 import LoadingSpinner from "../components/LoadingSpinner";
 import WarningAlert from "../components/alerts/WarningAlert";
 import BasicTable from "../components/BasicTable";
@@ -22,8 +21,6 @@ const TrendingMoviesPage = () => {
   useEffect(() => {
     setWhatTime(time);
   }, [time]);
-
-  const navigate = useNavigate();
 
   const {
     data: trending,
@@ -77,7 +74,7 @@ const TrendingMoviesPage = () => {
   return (
     <div className="page-container">
       <Container className="py-5">
-        <h4 className="text-uppercase mb-0">Trending Movies for the {time}</h4>
+        <h4 className="text-uppercase mb-0">Trending {category === "movie" ? 'Movies' : "Series"} for the {time}</h4>
 
         {isLoading && <LoadingSpinner />}
 

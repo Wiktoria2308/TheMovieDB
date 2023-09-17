@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import MovieIcon from '../assets/icons/movie-icon.jpeg'
+import MovieIcon from '../assets/icons/wiktoria-logo.png'
 
 const Footer = () => {
   return (
@@ -10,9 +10,8 @@ const Footer = () => {
         src={MovieIcon}
         className="movie-icon"
         alt="movie-icon"
-        width="30"
-      ></img>
-      The Movie DB <span>by Wiktoria Dobrzewinska</span>
+        width="100"
+      ></img><span className="footer-logo-text">by Wiktoria Dobrzewinska</span>
     </a>
   </div>
   )

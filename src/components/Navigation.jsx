@@ -1,5 +1,5 @@
 import { Link, NavLink } from "react-router-dom";
-import MovieIcon from "../assets/icons/movie-icon.jpeg";
+import MovieIcon from "../assets/icons/wiktoria-logo.png";
 import Search from "./Search";
 import useNavigateSearch from "../hooks/useNavigateSearch";
 import {NavDropdown, Nav, Navbar, Container} from "react-bootstrap";
@@ -31,9 +31,9 @@ const Navigation = () => {
             src={MovieIcon}
             className="movie-icon"
             alt="movie-icon"
-            width="40"
+            width="100"
           ></img>
-          <span>The Movie DB</span>
+          {/* <span className="movie-logo-text">Wiktoria DB</span> */}
         </Navbar.Brand>
 
         <Navbar.Toggle aria-controls="basic-navbar-nav" />
