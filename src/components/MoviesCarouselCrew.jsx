@@ -56,7 +56,7 @@ const MoviesCarouselCrew = ({ movies, text, type }) => {
   {movies.map((movie, index) => (
         <div className="carousel-card" key={index}>
           <div className="carousel-card-content">
-            <p className="mb-2 carousel-title-crew">{movie.job}</p>
+            
             {type === "movie" ? 
             <a href={`/movie/${movie.id}`}>
             <img
@@ -83,6 +83,7 @@ const MoviesCarouselCrew = ({ movies, text, type }) => {
                 <span>Trailer</span>
               </div>
             </div>
+            <p className="mb-0 mt-1 carousel-title-crew">{movie.job}</p>
           </div>
         </div>
       ))}
