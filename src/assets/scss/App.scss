@@ -375,6 +375,7 @@ $red-color: #901d00;
   }
   .movie-overview {
     width: 50%;
+    margin-bottom: 2rem;
   }
   .show-cast-button-container {
     text-align: center;
@@ -867,6 +868,12 @@ $red-color: #901d00;
 
 
 @media (max-width: 767px) {
+  .carousel-person-wrapper {
+    padding-top: 0;}
+    .movies-images-carousel{
+      margin-bottom: 2.5rem;
+      margin-top: 2.5rem;
+    }
   .movies-images-carousel {
     .close-button {
       top: 0;
@@ -923,7 +930,7 @@ $red-color: #901d00;
     }
     .movie-info-container {
       display: block;
-      padding: 1rem;
+      padding: 0 1rem 1rem 1rem;
 
       img {
         margin: auto;
@@ -931,6 +938,7 @@ $red-color: #901d00;
       }
       .movie-info {
         margin-left: 0;
+        margin-top: 2rem;
         a {
           text-decoration: none;
           color: inherit;
@@ -1002,6 +1010,7 @@ $red-color: #901d00;
     flex: 1;
     margin-top: 2rem;
   }
+
 }
 @media (max-width: 991px) {
   .info-table {
