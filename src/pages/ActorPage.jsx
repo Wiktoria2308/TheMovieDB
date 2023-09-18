@@ -9,15 +9,21 @@ import MoviesCarousel from "../components/MoviesCarousel";
 import { Link } from "react-router-dom";
 import MovieImage from "../assets/images/movie.png";
 import MoviesCarouselCrew from "../components/MoviesCarouselCrew";
+import useActorSeries from "../hooks/useActorSeries";
 
 const ActorPage = () => {
   const { id } = useParams();
   const { data: actor, error, isError, isLoading } = useActor(id);
+  const {data: actorSeries} = useActorSeries(id);
   const [showFullBiography, setShowFullBiography] = useState(false);
   const [showAllMovies, setShowAllMovies] = useState(false);
+  const [showAllSeries, setShowAllSeries] = useState(false);
   const [showAllMoviesCrew, setShowAllMoviesCrew] = useState(false);
+  const [showAllSeriesCrew, setShowAllSeriesCrew] = useState(false);
   const [ageOfDeath, setAgeofDeath] = useState(null);
   const [age, setAge] = useState(null);
+
+  console.log(actorSeries)
 
   const toggleBiography = () => {
     setShowFullBiography(!showFullBiography);
@@ -32,8 +38,16 @@ const ActorPage = () => {
     setShowAllMovies(!showAllMovies);
   };
 
+  const toggleAllSeries = () => {
+    setShowAllSeries(!showAllSeries);
+  };
+
   const toggleAllMoviesCrew = () => {
     setShowAllMoviesCrew(!showAllMoviesCrew);
+  };
+
+  const toggleAllSeriesCrew = () => {
+    setShowAllSeriesCrew(!showAllSeriesCrew);
   };
 
   function calculateExactAgeAtDeath(birthdate, deathdate) {
@@ -93,13 +107,26 @@ const ActorPage = () => {
 
   const filteredCrew = actor?.credits.crew.filter(
     (movie) => movie.job !== "Thanks"
-  );
+  ) .sort((a, b) => {
+    return new Date(b.release_date) - new Date(a.release_date);
+  });
+  const filteredSeriesCrew = actorSeries?.crew.filter(
+    (movie) => movie.job !== "Thanks"
+  ) .sort((a, b) => {
+    return new Date(b.first_air_date) - new Date(a.first_air_date);
+  });
 
   const sortedMovies = actor?.credits.cast
-  .slice()
   .sort((a, b) => {
     return new Date(b.release_date) - new Date(a.release_date);
   });
+
+
+  const sortedSeries = actorSeries?.cast
+  .sort((a, b) => {
+    return new Date(b.first_air_date) - new Date(a.first_air_date);
+  });
+
 
   return (
     <div className="actor-page-container">
@@ -209,17 +236,68 @@ const ActorPage = () => {
                 ) : (
                   <MoviesCarousel
                     movies={sortedMovies.slice(0, 12)}
-                    text="Actor"
+                    text="Movies (actor)"
                     type="movie"
                   />
                 )}
-                <div className="show-cast-button-container mt-4">
+             {sortedMovies.length > 12 ?  <div className="show-cast-button-container mt-4">
                   <button onClick={toggleAllMovies}>
-                    {showAllMovies ? "Close All movies" : "All movies"}
+                    {showAllMovies ? "Close all movies (actor)" : "All movies (actor)"}
                   </button>
-                </div>
+                </div> : null}
               </>
             ) : null}
+
+            {sortedSeries && sortedSeries.length > 0 ? (
+              <>
+                {showAllSeries ? (
+                  <div className="all-movies-list">
+                    <h5 className="mb-4">All Series</h5>
+                    <div className="movies-columns">
+                      {sortedSeries
+                        .map((movie, index) => (
+                          <div key={index} className="movie-item">
+                            <a href={`/tv/${movie.id}`}>
+                              <img
+                                src={
+                                  movie.poster_path === null
+                                    ? MovieImage
+                                    : `https://image.tmdb.org/t/p/w500${movie.poster_path}`
+                                }
+                                alt="movie-poster"
+                              />
+                            </a>
+                            <div>
+                              <Link
+                                className="actor-movies-title-link"
+                                to={`/tv/${movie.id}`}
+                              >
+                                {movie.title}
+                              </Link>
+                              <p className="actor-movies-year">
+                                {movie.first_air_date.substring(0, 4)}
+                              </p>
+                            </div>
+                          </div>
+                        ))}
+                    </div>
+                  </div>
+                ) : (
+                  <MoviesCarousel
+                    movies={sortedSeries.slice(0, 12)}
+                    text="Series (actor)"
+                    type="tv"
+                  />
+                )}
+             {sortedSeries.length > 12 ?  <div className="show-cast-button-container mt-4">
+                  <button onClick={toggleAllSeries}>
+                    {showAllSeries ? "Close all series (actor)" : "All series (actor)"}
+                  </button>
+                </div> : null}
+              </>
+            ) : null}
+
+
             {filteredCrew && filteredCrew.length > 0 ? (
               <>
                 {showAllMoviesCrew ? (
@@ -257,15 +335,64 @@ const ActorPage = () => {
                 ) : (
                   <MoviesCarouselCrew
                     movies={filteredCrew.slice(0, 12)}
-                    text=""
+                    text="Movies (crew)"
                     type="movie"
                   />
                 )}
-                <div className="show-cast-button-container mt-4">
+               { filteredCrew.length > 12 ? <div className="show-cast-button-container mt-4">
                   <button onClick={toggleAllMoviesCrew}>
-                    {showAllMoviesCrew ? "Close All movies" : "All movies"}
+                    {showAllMoviesCrew ? "Close all movies (crew)" : "All movies (crew)"}
                   </button>
-                </div>
+                </div> : null }
+              </>
+            ) : null}
+
+{filteredSeriesCrew && filteredSeriesCrew.length > 0 ? (
+              <>
+                {showAllSeriesCrew ? (
+                  <div className="all-movies-list">
+                    <h5 className="mb-4">All Series</h5>
+                    <div className="movies-columns">
+                      {filteredSeriesCrew.map((movie, index) => (
+                        <div key={index} className="movie-item">
+                          <a href={`/tv/${movie.id}`}>
+                            <img
+                              src={
+                                movie.poster_path === null
+                                  ? MovieImage
+                                  : `https://image.tmdb.org/t/p/w500${movie.poster_path}`
+                              }
+                              alt="movie-poster"
+                            />
+                          </a>
+                          <div>
+                            <Link
+                              className="actor-movies-title-link"
+                              to={`/tv/${movie.id}`}
+                            >
+                              {movie.title}
+                            </Link>
+                            <p className="actor-movies-year mb-1">
+                              {movie.first_air_date.substring(0, 4)}
+                            </p>
+                            <p className="actor-movies-job">{movie.job}</p>
+                          </div>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                ) : (
+                  <MoviesCarouselCrew
+                    movies={filteredSeriesCrew.slice(0, 12)}
+                    text="Series (crew)"
+                    type="tv"
+                  />
+                )}
+               { filteredSeriesCrew.length > 12 ? <div className="show-cast-button-container mt-4">
+                  <button onClick={toggleAllSeriesCrew}>
+                    {showAllSeriesCrew ? "Close all series (crew)" : "All series (crew)"}
+                  </button>
+                </div> : null }
               </>
             ) : null}
           </div>

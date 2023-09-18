@@ -98,6 +98,9 @@ const getTV = (id) => {
 	return get(`/tv/${id}?api_key=${import.meta.env.VITE_TMDB_API_KEY}&language=en-US&append_to_response=credits`)
 }
 
+const getActorSeries = (id) => {
+	return get(`/person/${id}/tv_credits?api_key=${import.meta.env.VITE_TMDB_API_KEY}&language=en-US`)
+}
 
 const exports = {
 	getMovie,
@@ -111,6 +114,7 @@ const exports = {
 	getTrailer,
 	getMoviesByType,
 	getMoviesImages,
+	getActorSeries,
 }
 
 export default exports

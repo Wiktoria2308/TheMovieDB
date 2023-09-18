@@ -67,6 +67,17 @@ const MoviePage = () => {
     }
   };
 
+  const sortedMovies = similarMovies?.results
+  .sort((a, b) => {
+    if(category === "movie"){
+      return new Date(b.release_date) - new Date(a.release_date);
+    }
+    else{
+      return new Date(b.first_air_date) - new Date(a.first_air_date);
+    }
+  
+  });
+console.log(sortedMovies)
   return (
     <div className="movie-page-container">
       {isLoading && <LoadingSpinner />}
@@ -336,13 +347,15 @@ const MoviePage = () => {
                   </div>
                 </div>
               ) : (
-                <PersonCarousel cast={movie.credits.cast} text="Cast" />
+                <PersonCarousel cast={movie.credits.cast.slice(0, 12)} text="Cast" />
               )}
+              {movie.credits.cast.length > 12 ? 
               <div className="show-cast-button-container mt-4">
                 <button onClick={toggleAllCast}>
                   {showAllCast ? "Close All cast" : "All cast"}
                 </button>
               </div>
+              : null }
             </div>
           ) : null}
           {movie.credits && movie.credits.crew.length > 0 ? (
@@ -379,24 +392,25 @@ const MoviePage = () => {
                   </div>
                 </div>
               ) : (
-                <PersonCarousel cast={movie.credits.crew} text="Crew" />
+                <PersonCarousel cast={movie.credits.crew.slice(0, 12)} text="Crew" />
               )}
+              {movie.credits.crew.length > 12 ? 
               <div className="show-cast-button-container mt-4">
                 <button onClick={toggleAllCrew}>
                   {showAllCast ? "Close All crew" : "All crew"}
                 </button>
-              </div>
+              </div> : null }
             </div>
           ) : null}
           {similarMovies && similarMovies.results.length > 0 ? (
             <>
               {showAllMovies ? (
                 <div className="all-movies-list">
-                  <h5 className="mb-4">{category === "movie" ? 'All movies' : 'All series'}</h5>
+                  <h5 className="mb-4">{category === "movie" ? 'All similar movies' : 'All similar series'}</h5>
                   <div className="movies-columns">
-                    {similarMovies.results.map((movie, index) => (
+                    {sortedMovies.map((movie, index) => (
                       <div key={index} className="movie-item">
-                        <a href={`/movie/${movie.id}`}>
+                        <a href={`/${movie.release_date ? 'movie' : 'tv'}/${movie.id}`}>
                           <img
                             src={
                               movie.poster_path === null
@@ -409,12 +423,12 @@ const MoviePage = () => {
                         <div>
                           <Link
                             className="actor-movies-title-link"
-                            to={`/movie/${movie.id}`}
+                            to={`/${movie.release_date ? 'movie' : 'tv'}/${movie.id}`}
                           >
                             {movie.title ? movie.title : movie.name}
                           </Link>
                           <p className="actor-movies-year">
-                          {category === "movie"
+                          {movie.release_date
                     ? movie.release_date.substring(0, 4)
                     : `${movie.first_air_date?.substring(0, 4)}` }
                           </p>
@@ -425,7 +439,7 @@ const MoviePage = () => {
                 </div>
               ) : (
                 <MoviesCarousel
-                  movies={similarMovies.results.slice(0, 12)}
+                  movies={sortedMovies.slice(0, 12)}
                   text={
                     category === "movie" ? "Similar movies" : "Similar series"
                   }
@@ -435,13 +449,13 @@ const MoviePage = () => {
               {category === "movies" ? (
                 <div className="show-cast-button-container mt-4">
                   <button onClick={toggleAllMovies}>
-                    {showAllMovies ? "Close All movies" : "All movies"}
+                    {showAllMovies ? "Close all similar movies" : "All similar movies"}
                   </button>
                 </div>
               ) : (
                 <div className="show-cast-button-container mt-4">
                   <button onClick={toggleAllMovies}>
-                    {showAllMovies ? "Close All series" : "All series"}
+                    {showAllMovies ? "Close all similar series" : "All similar series"}
                   </button>
                 </div>
               )}

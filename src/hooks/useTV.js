@@ -1,8 +1,8 @@
 import { useQuery } from 'react-query'
 import MovieAPI from '../services/MovieAPI'
 
-const useMovie = (id) => {
+const useTV= (id) => {
 	return useQuery(['tv', id], () => MovieAPI.getTV(id))
 }
 
-export default useMovie
+export default useTV

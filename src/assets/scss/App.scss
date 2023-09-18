@@ -40,7 +40,13 @@ $red-color: #901d00;
     margin-left: 7px;
     letter-spacing: 1px;
   }
-
+  .footer-contact
+  {
+    margin-top: 2rem;
+    text-align: center;
+    letter-spacing: 0.5px;
+    font-size: 12px;
+  }
 }
 
 .pagination {
@@ -778,6 +784,22 @@ $red-color: #901d00;
 }
 
 .trailer-modal {
+  .modal-content {
+    background-color: #212529 !important;
+    color: white !important;
+  }
+  .modal-header {
+    border: 0 !important;
+    button {
+      background-color: #888;
+    }
+  }
+  .modal-title {
+    padding-left: 1rem;
+  }
+  .modal-body {
+    padding: 0 !important;
+  }
   .video-container {
     display: flex;
     justify-content: center;
@@ -853,11 +875,12 @@ $red-color: #901d00;
       }
     }
     .actor-movies-year {
+      color: white;
       font-size: 0.8rem;
-      color: $orange-color;
     }
     .actor-movies-job {
       font-size: 0.8rem;
+      color: $orange-color;
     }
   }
 }

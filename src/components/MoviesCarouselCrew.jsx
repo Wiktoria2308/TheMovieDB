@@ -41,6 +41,7 @@ const MoviesCarouselCrew = ({ movies, text, type }) => {
 
   return (
     <div className="carousel-wrapper">
+       <h4 className="carousel-title">{text}</h4>
     <Carousel
       swipeable={true}
       draggable={false}

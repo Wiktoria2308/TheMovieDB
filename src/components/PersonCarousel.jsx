@@ -37,7 +37,7 @@ const PersonCarousel = ({ cast, text }) => {
       transitionDuration={0}
       containerClass="carousel-container"
     >
-  {cast.slice(0, 12).map((person, index) => (
+  {cast.map((person, index) => (
         <div className="carousel-card" key={index}>
           <div className="carousel-card-content">
             
